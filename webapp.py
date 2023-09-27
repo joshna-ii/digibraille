@@ -14,7 +14,7 @@ def gfg():
        # getting input with name = lname in HTML form
        last_name = request.form.get("lname")
        return "Your name is "+first_name + last_name
-    return render_template("form.html")
+    return render_template("website.html")
  
 if __name__=='__main__':
    app.run()
