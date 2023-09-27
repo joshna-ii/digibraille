@@ -1,0 +1,7 @@
+beautifulsoup4
+google
+requests
+googlesearch-python
+mechanize
+urllib2
+flask
