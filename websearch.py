@@ -3,10 +3,18 @@ import requests
 from bs4 import BeautifulSoup
 
 
+def search(search_input):
+   url = search_input.strip()
+   resp=requests.get(url)
+      
+   #http_respone 200 means OK status
+   if resp.status_code==200: #if link
+      print(resp.text[:400]) #TODO take only important parts
+   else:
+      print(resp)
 
-x = search("help")
-print(x)
 
+'''
 
 search = 'presidents'
 url = 'https://www.google.com/search'
@@ -52,3 +60,4 @@ if resp.status_code==200:
     #    print(i.text)
 else:
     print(resp)
+    '''
