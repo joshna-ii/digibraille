@@ -1,7 +1,6 @@
 # importing Flask and other modules
 from flask import Flask, request, render_template
-import requests
-from websearch import *
+from main_backend import run_backend
  
 # Flask constructor
 app = Flask(__name__)  
@@ -15,18 +14,8 @@ def gfg():
       search_input = request.form.get("search")
       # getting input with notes in HTML form
       notes_input = request.form.get("notes")
-      if search_input == "": #no search input
-         if notes_input == "": #no notes input
-            return "No input so nothing to print"
-         else: #just notes input
-            return "printing now: " + notes_input
-      else:
-         search(search_input) #function from websearch
-         if notes_input == "": #just search input
-            return "printing now: " + search_input
-         else: #both search and notes niput
-            return "printing now: " + search_input + " and " + notes_input
-      return "other"
+      run_backend(search_input, notes_input) #from websearch.py
+      return f'printing now:\n{search_input}\n{notes_input}'
    return render_template("website.html")
 
  
