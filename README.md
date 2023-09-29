@@ -1,10 +1,10 @@
 # digibraille
 
 How to Use Right Now:
-pip install -r requirements.txt
-python3 webapp.py
-- website is 127.0.0.1:5000 (local host)
-- just prints some info to browser and local terminal rn based on input
+- pip install -r requirements.txt
+- python3 webapp.py
+    website is 127.0.0.1:5000 (local host)
+    just prints some info to browser and local terminal rn based on input
 
 Structure of Repo:
 - frontend: webapp.py and templates using python library Flask, directly interfaces with main_backend.py
