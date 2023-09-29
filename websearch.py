@@ -3,7 +3,9 @@ import requests
 from bs4 import BeautifulSoup
 
 def find_product(search_input):
-   return "need to implement"
+    #looks through directions for me and similar websites for keywords
+    #uses the google function
+    return "need to implement"
 
 
 def print_link(search_input):
@@ -12,7 +14,7 @@ def print_link(search_input):
       
    #http_respone 200 means OK status
    if resp.status_code==200: #if link
-      return resp.text[:400] #TODO take only important parts
+      return resp.content #TODO take only important parts
    else:
       return "error"
 
@@ -30,6 +32,4 @@ def google(keywords):
     soup = BeautifulSoup(content, 'html.parser')
     search = soup.find(id = 'search')
     first_link = search.find('a')
-    return first_link['href']
-
-
+    return print_link(first_link['href'])

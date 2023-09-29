@@ -17,3 +17,6 @@ def run_backend(search_input, notes_input):
             str_input += find_product(search_input)
         else:
             str_input += resp
+
+    with open("temp_output.txt", "w") as f: #emp writing output to file
+        f.writelines(f'{str_input}')

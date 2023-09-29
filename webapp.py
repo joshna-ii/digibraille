@@ -15,7 +15,7 @@ def gfg():
       # getting input with notes in HTML form
       notes_input = request.form.get("notes")
       run_backend(search_input, notes_input) #from websearch.py
-      return f'printing now:\n{search_input}\n{notes_input}'
+      return f'printing now:\n{search_input}\n{notes_input}' #TODO find way to have a back and forth for product searching
    return render_template("website.html")
 
  
