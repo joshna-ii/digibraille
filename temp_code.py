@@ -2,8 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-#TODO figure out how to make this fast
-
 to_print = ""
 
 URL = "https://directionsforme.org/product/0"

@@ -16,7 +16,8 @@ def run_backend(search_input, notes_input):
         if resp == "" or resp == "error":
             str_input += find_product(search_input)
         else:
-            str_input += resp
+            str_input += str(resp)
+            print(str_input[:400])
 
     with open("temp_output.txt", "w") as f: #emp writing output to file
         f.writelines(f'{str_input}')

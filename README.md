@@ -13,8 +13,8 @@ Structure of Repo:
     - translation.py: converts alphabet to braille characters (set of 6 signals), converts to list of signals to be sent
     - rpi_handler.py: interfaces with rpi to host website and send signals for embosser
 - temporary files:
-    temp_code.py: code for finding product directions
-    temp_output.py: print test outputs here
+    - temp_code.py: code for finding product directions
+    - temp_output.py: print test outputs here
 
 Thoughts on Improvement:
 - might need to have internal database because webscraping is taking too long and use google if not in internal database
