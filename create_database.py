@@ -3,9 +3,10 @@ from bs4 import BeautifulSoup
 
 
 keyword_dict = {}
+#TODO add after webscraping to create database
 #for word in title:
 #    if not (word in ["and", "the", "or", "of", "by"]):
-#        keyword_dict[word] = details
+#        keyword_dict[word] = (title, web_info)
 
 to_print = ""
 

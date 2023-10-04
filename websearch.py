@@ -2,24 +2,23 @@ from googlesearch import search
 import requests
 from bs4 import BeautifulSoup
 
+
+#TODO uses keywords to find info from database
 def find_product(search_input):
-    #looks through directions for me and similar websites for keywords
-    #uses the google function
-    #jk need to create database and will only use google function if not in database
-    return "working on in temp code file"
+    return "need to get info from database in database_output.txt"
 
-
+#webscrapes and outputs website info given input link
 def print_link(search_input):
    url = search_input.strip()
    resp=requests.get(url)
       
-   #http_respone 200 means OK status
+   #http_response 200 means OK status
    if resp.status_code==200: #if link
       return resp.content #TODO take only important parts
    else:
       return "error"
 
-
+#searches google for relevant website given keywords
 def google(keywords):
     search = keywords
     url = 'https://www.google.com/search'
