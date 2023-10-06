@@ -1,6 +1,36 @@
-<form action="{{ url_for("gfg")}}" method="post">
-    <label for="search">Product or Link:</label>
-    <input type="text" id="sesarch" name="search" placeholder="Enter Product Name to Print Product Directions or Enter Link to Print Website">
-    <label for="notes">Notes</label>
-    <input type="text" id="notes" name="notes" placeholder="Enter Notes Here">
-    <button type="submit">Print</button>
+<!doctype html>
+<!--HTML FILE FOR WEBSITE HOME PAGE-->
+
+<html>
+    <body>
+        <h1> <!--heading-->
+            DIGIBRAILLE
+            <link rel="stylesheet" href="{{ url_for('static', filename= 'css/title.css') }}">
+        </h1>
+    <br> <!--webpage short description-->
+    Welcome to DigiBraille! Our web app allows you to input a note (i.e. grocery list, phone number, to-do list), a recipe you 
+    would like to make, product you would like to use, or a link to an article and directly print it to physical braille from your 
+    phone! To start click the notes button and start writing whatever you want or the search box to look up a product or submit a link.
+    <br>
+
+    <!--button presses for neach service on webapp-->
+    <div class="btn">
+        <a href="/typenotes"> <!--type and print notes feature-->
+            <button id="notes" class="both">
+                Type Notes
+            </button>
+        </a>
+
+        <a href="/searchproduct"> <!--search product feature-->
+            <button id="product" class="both">
+                Search Product
+            </button>
+        </a>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename= 'css/home_buttons.css') }}">
+    </div>
+    </body>
+
+</html>
+
+
