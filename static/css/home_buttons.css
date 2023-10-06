@@ -1,0 +1,37 @@
+.btn {
+    margin-top: 20px;
+    text-align: center;
+    background-color: white;
+  }
+  .both {
+    width: 150px;
+    text-transform: uppercase;
+    padding: 10px 15px;
+    font-size: 20px;
+    color: black;
+    letter-spacing: 2px;
+    font-weight: bold;
+    border-radius: 10px;
+    margin: 30px;
+    outline: none;
+    border: 3px solid black;
+    transition: all ease 0.5s;
+  }
+  #first {
+    background-color: white;
+    cursor: pointer;
+  }
+  #fist:hover {
+    background-color: white;
+    color: white;
+    border: 3px solid black;
+  }
+  #second {
+    background-color: white;
+    cursor: pointer;
+  }
+  #second:hover {
+    background-color: white;
+    color: white;
+    border: 3px solid black;
+  }

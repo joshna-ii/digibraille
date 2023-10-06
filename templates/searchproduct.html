@@ -1,0 +1,20 @@
+<!doctype html>
+<!--HTML FILE FOR PRODUCT SEARCHING FEATURE OF WEBSITE-->
+
+<html>
+    <body>
+        <h1> <!--heading-->
+            DIGIBRAILLE
+            <link rel="stylesheet" href="{{ url_for('static', filename= 'css/title.css') }}">
+        </h1>
+    </body>
+
+    <form action="{{ url_for("typenotes")}}" method="post">
+
+        <textarea id="notes" name="notes" placeholder="Type Here" cols="10" rows="1"></textarea>
+        <input  type="submit" id="notes" name="notes" value="Search">
+ 
+    </form>
+
+
+</html>
