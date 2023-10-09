@@ -1,0 +1,40 @@
+<!doctype html>
+<!--HTML FILE FOR TYPE NOTES FEATURE OF WEBSITE-->
+
+<html>
+    <body>
+        <h1> <!--heading-->
+            DIGIBRAILLE
+            <link rel="stylesheet" href="{{ url_for('static', filename= 'css/title.css') }}">
+        </h1>
+        <h2> 
+            Type Below: 
+            <link rel="stylesheet" href="{{ url_for('static', filename= 'css/subheading.css') }}">
+        </h2>
+
+        <div class="btn">
+            <a href="/"> <!--type and print notes feature-->
+                <button id="notes" class="both">
+                    Back
+                </button>
+            </a>
+            <link rel="stylesheet" href="{{ url_for('static', filename= 'css/subheading.css') }}">
+        </div>
+        
+    </body>
+
+
+    <form action="{{ url_for("typenotes")}}" method="post">
+        <textarea id="notes" name="notes" placeholder="Type Here" cols="100" rows="30"></textarea>
+        <br>
+        <div>
+            <input  type="submit" id="notes" name="notes" value="Print">
+            <input type="reset" id="clearButton" name="clearButton" value="Clear">
+           <!-- <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_button.css') }}">-->
+        </div>
+    </form>
+
+
+
+</html>
+
