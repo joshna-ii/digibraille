@@ -2,3 +2,6 @@ bs4
 flask
 requests
 html5lib
+pandas
+lxml
+re

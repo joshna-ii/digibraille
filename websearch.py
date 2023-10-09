@@ -1,4 +1,3 @@
-from googlesearch import search
 import requests
 from bs4 import BeautifulSoup
 
@@ -33,4 +32,3 @@ def google(keywords):
     search = soup.find(id = 'search')
     first_link = search.find('a')
     return print_link(first_link['href'])
-

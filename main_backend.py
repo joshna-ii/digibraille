@@ -2,7 +2,7 @@ from websearch import print_link, find_product
 
 #gets information from frontend then decides what to print
 #calls embossing functions
-def run_backend(search_input, notes_input):
+def run_backend(search_input, notes_input): #TODO say what to print next
     if search_input == "" and notes_input == "":
         return "No input so nothing to print"
     if notes_input != "":
