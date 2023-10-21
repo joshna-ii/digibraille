@@ -3,18 +3,34 @@
 
 <html>
     <body>
-        <h1> <!--heading-->
+        <h1 style = "font-size: 20px; font-family:Arial, Helvetica, sans-serif;"> <!--heading-->
             DIGIBRAILLE
             <link rel="stylesheet" href="{{ url_for('static', filename= 'css/title.css') }}">
         </h1>
 
+        <h2 style = "position:relative; left:440px; top:15px; font-size: 35px; font-family:Arial, Helvetica, sans-serif;"> <!--heading-->
+            Search
+        </h2>
+
+        <a href="/"> <!--type and print notes feature-->
+            <button id="notes" class="both" style = "position:relative; left:916px; top:-45px; width: 120px; font-size: 30px;">
+                Menu
+            </button>
+        </a>
+
     </body>
+    
+    <br>
+    <br>
+    <br>
 
-    <form action="{{ url_for("typenotes")}}" method="post">
+    <form action="{{ url_for("typenotes")}}" method="post"> 
 
-        <textarea id="notes" name="notes" placeholder="Type Here" cols="10" rows="1"></textarea>
-        <input  type="submit" id="notes" name="notes" value="Search">
-
+        <div> <center> 
+        <textarea id="notes" name="notes" placeholder="Type Here" cols="50" rows="2"></textarea>
+        <input  type="submit" id="notes" name="notes" value="Search"  style = "position:relative; left:50px; top:-9px; width: 120px; font-size: 30px">
+        </center> </div>
+      
     </form>
 
 

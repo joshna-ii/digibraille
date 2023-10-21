@@ -32,6 +32,7 @@ def searchproduct():
       # getting input with notes in HTML form
       #run_backend(search_input, notes_input) #from websearch.py REMEMBER TO UNCOMMENT WHEN DONE
       return f'printing now:\n{search_input}' #TODO find way to have a back and forth for product searching
+      # return run back-end 
    return render_template("searchproduct.html")
 
 
