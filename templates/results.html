@@ -1,0 +1,117 @@
+<!doctype html>
+<!--HTML FILE FOR PRODUCT SEARCHING FEATURE OF WEBSITE-->
+
+<html>
+    <style>
+        /* CSS for the box */
+        .box {
+            border: 1px solid #ccc;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            top: 50px; 
+            left: 100px; 
+            justify-content: center; 
+            align-items: center;
+            width: 530px;
+            height:470px; 
+            margin: 0 auto;
+            margin-right: 403px; 
+        }
+    </style>
+
+
+    <body>
+        <h1 style = "font-size: 20px; font-family:Arial, Helvetica, sans-serif;"> <!--heading-->
+            DIGIBRAILLE
+            <link rel="stylesheet" href="{{ url_for('static', filename= 'css/title.css') }}">
+        </h1>
+
+        <h2 style = "position:relative; left:442px; top:10px; font-size: 20px; font-family:Arial, Helvetica, sans-serif;"> <!--heading-->
+            Search
+        </h2>
+
+        <a href="/"> <!--type and print notes feature-->
+            <button id="notes" class="both" style = "position:relative; left:916px; top:-30px; width: 100px; font-size: 15px;">
+                MENU
+            <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_buttons.css') }}">
+            </button>
+        </a>
+    </body>
+
+    <br>
+
+    <form action="{{ url_for("searchproduct")}}" method="post"> 
+
+        <div> <center> 
+        <textarea id="notes" name="search" placeholder="Type Here" cols="50" rows="1"></textarea>
+        <input  type="submit" id="SEARCH" name="notes" value="Search" class="both" style = "position:relative; left:40px; top:-8px; width: 100px; font-size: 15px">
+        <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_buttons.css') }}">
+        </center> </div>
+      
+    </form>
+
+
+	<body>
+        <h2 style = "font-size: 16px; position:relative; left:450px; font-weight: normal; color: #555555">{{product_name}}</h2>
+        <div class="box">
+            {% for key in product_info %}    
+            
+                {% if key == "Nutritional Facts" %}
+
+                    <p>
+                        <table class="striped-table">
+                        <th> <strong>{{key}}</strong></th>
+                        {% for key2 in product_info[key] %}
+                    
+                            <tr style = " border: none; height: 2px; border-collapse: collapse;"><td> {{ key2 }}         </td><td> {{ product_info[key][key2] }}</td></tr>
+                            <link rel="stylesheet" href="{{ url_for('static', filename= 'css/table.css') }}">
+
+                        {% endfor %} 
+                        <table>
+                    </p>
+
+                {% else %}
+                    <p>    <strong>{{key}}</strong><br>
+                        {{product_info[key]}}  </p>    
+                {% endif %}
+                
+            {% endfor %}
+
+        </div>
+
+        {% if page_num == 1 %}
+            <a href="/searchproduct"> <!--type and print notes feature-->
+                <button id="back"  class="both" style = "  position:absolute; left:956.7px; top:750px; width: 80px; font-size: 15px">
+                    BACK
+                <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_buttons.css') }}">
+                </button>
+            </a>
+        {% endif %}
+
+        {% if page_num == 2 %}
+            <a href="/nextpage"> <!--type and print notes feature-->
+                <button id="back"  class="both" style = "  position:absolute; left: 956.7px; top:750px; width: 80px; font-size: 15px">
+                    BACK
+                <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_buttons.css') }}">
+                </button>
+            </a>
+        {% endif %}
+
+        
+        <form method = "post" action = "\resultsprint">
+            <div> 
+            <input  type="submit" id="prod" name="prod" class = "prod" value="PRINT" style="position: absolute; left: 456.7px; top: 750px; width: 80px; font-size: 15px;"> 
+            <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_buttons.css') }}">
+            </div>
+        </form>
+
+     
+
+	</body>
+
+
+
+
+
+</html>
