@@ -1,22 +1,24 @@
-.btn {
-    margin-top: 20px;
-    margin-bottom: 20px;
+.nextpage {
+    margin-top: 10px;
+    margin-bottom: 10px;
     text-align: center;
     background-color: white;
-  }
-  .both {
-    width: 150px;
+
+    width: 100px;
     text-transform: uppercase;
-    padding: 10px 20px;
-    font-size: 20px;
+    padding: 10px 10px;
+    font-size: 15px;
     color: black;
     letter-spacing: 2px;
     font-weight: bold;
     border-radius: 10px;
-    margin: 30px;
+    margin: 10px;
     outline: none;
     border: 3px solid black;
     transition: all ease 0.5s;
+    position:relative; 
+    left:200px; 
+    top:200px;
   }
   #first {
     background-color: white;
