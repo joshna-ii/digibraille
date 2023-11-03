@@ -5,3 +5,4 @@ html5lib
 pandas
 lxml
 re
+csv
