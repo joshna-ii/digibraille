@@ -1,8 +1,7 @@
 # importing Flask and other modules
 from flask import Flask, request, render_template, jsonify
-from websearch import print_link, find_product
 import copy
-#from main_backend import run_backend
+from main_backend import run_backend
  
 # Flask constructor
 app = Flask(__name__)  
@@ -49,8 +48,7 @@ def typenotes():
       if request.method == "POST":
          # getting input with notes in HTML form
          notes_input = request.form.get("notes")
-         #run_backend(search_input, notes_input) #from websearch.py REMEMBER TO UNCOMMENT WHEN DONE
-        #return f'printing now:\n{notes_input}' #TODO find way to have a back and forth for product searching
+         run_backend("notes", notes_input)
    return render_template("typenotes.html")
 
 
@@ -63,9 +61,7 @@ def searchproduct(page=0):
 
          # getting input with search in HTML form
          search_input = request.form.get("search")
-         # getting input with notes in HTML form
-         #run_backend(search_input, notes_input) #from websearch.py REMEMBER TO UNCOMMENT WHEN DONE
-         [results,n] = find_product(search_input)
+         [results,n] = run_backend("search", search_input)
 
          items_per_page = 5
          start_index = page*items_per_page + 0 
