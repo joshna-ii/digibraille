@@ -55,7 +55,7 @@ while True: #currently about 3.1 pages/sec (264847 total so one whole day uh)
                 keyword_dict[word] = keyword_dict[word] + "new_elem_for_list" + directions
 
 
-with open('database.csv', 'w', newline='\n') as file:
+with open('database263000.csv', 'w', newline='\n') as file:
     writer = csv.writer(file)
     writer.writerow(["keyword", "recipe1", "recipe2", "recipe3"])
     for key in keyword_dict:

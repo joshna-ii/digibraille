@@ -1,3 +1,5 @@
+import re
+
 #uncontract dictionaries
 abcx_dict = {"a": [1,0,0,0,0,0], "b": [1,1,0,0,0,0], "c": [1,0,0,1,0,0], "d": [1,0,0,1,1,0], "e": [1,0,0,0,1,0],
                     "f": [1,1,0,1,0,0], "g": [1,1,0,1,1,0], "h": [1,1,0,0,1,0], "i": [0,1,0,1,0,0], "j": [0,1,0,1,1,0],
@@ -6,7 +8,7 @@ abcx_dict = {"a": [1,0,0,0,0,0], "b": [1,1,0,0,0,0], "c": [1,0,0,1,0,0], "d": [1
                     "u": [1,0,1,0,0,1], "v": [1,1,1,0,0,1], "w": [0,1,0,1,1,1], "x": [1,0,1,1,0,1], "y": [1,0,1,1,1,1],
                     "z": [1,0,1,0,1,1], ".": [0,1,0,0,1,1], ",": [0,1,0,0,0,0], "#": [0,0,1,1,1,1], " ": [0,0,0,0,0,0],
                     ";": [0,1,1,0,0,0], ":": [0,1,0,0,1,0], "/": [0,0,1,1,0,0], "?": [0,1,1,0,0,1], "!": [0,1,1,0,1,0],
-                    "@": [0,0,1,1,1,0], "+": [0,1,1,0,1,0], "-": [0,1,0,0,1,0], "\"": [0,0,0,0,1,0], "'": [0,0,1,0,0,0],
+                    "@": [0,0,1,1,1,0], "+": [0,1,1,0,1,0], "-": [0,1,0,0,1,0], "\"": [0,0,0,0,1,1], "'": [0,0,1,0,0,0],
                     "_": [0,0,0,1,1,1], "`": [0,0,0,0,1,0]}
 
 special_dict = {"$": ([0,0,0,1,0,0],[0,1,0,0,1,1]),"%": ([0,0,0,1,0,0],[0,1,0,0,1,0],[1,1,1,1,0,0]),
@@ -65,10 +67,28 @@ def uncontracted_translation(s):
 
 
 #contracted braille TODO
-#try for AB, AB CD, AbC, AB12CD, ab AB, AB cd
-#nested loop or separate loop?
-#brackets/parentheses
+def contracted_translation(inp):
+    res = re.sub(r"\"", "`", inp) #conflict prevention
+    #final letter groupsigns
+    res = re.sub(r"ound |ound$", "kd", res)
+    res = re.sub(r"ance |ance$", "ke", res)
+    res = re.sub(r"sion |sion$", "kn", res)
+    res = re.sub(r"less |less$", "ks", res)
+    res = re.sub(r"ount |ount$", "kt", res)
+    res = re.sub(r"ence |ence$", "\"e", res)
+    res = re.sub(r"ong |ong$", "\"g", res)
+    res = re.sub(r"ful |ful$", "\"l", res)
+    res = re.sub(r"tion |tion$", "\"n", res)
+    res = re.sub(r"ness |ness$", "\"s", res)
+    res = re.sub(r"ment |ment$", "\"t", res)
+    res = re.sub(r"ity |ity$", "\"y", res)
+    #initial letter contractions
+    res = re.sub(r"day |^day", "`d", res)
+    #shortform words
+    res = re.sub(r" about |^about | about$|^about$", "ab", res)
 
 
 
-#translate arrays of 6 to arrys of 4 based on solenoid locations
+#translate arrays of 6 to arrys of 4 based on solenoid locations TODO
+line_diff = 16 #number of lines in between pairs of solenoids
+char_per_line = 24 #number of embossed characters per line
