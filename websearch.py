@@ -1,19 +1,20 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
+from collections import OrderedDict
 
 
-#TODO uses keywords to find info from database
 def find_product(search_input):
+    db_name = "database263000.csv"
     #convert database in csv to dict TODO move to webapp.py for efficiency
     d = {}
-    with open('database.csv', 'r') as db:
+    with open(db_name, 'r') as db:
        rdr = csv.reader(db)
        next(rdr)
        for row in rdr:
           d[row[0]] = row[1:]
 
-    #to_print = ""
+    to_print = ""
 
     recipe_count = {}
     words = search_input.split(" ")
@@ -36,17 +37,15 @@ def find_product(search_input):
     if len(sorted_list) > 10:
        sorted_list = sorted[:10]
 
-    resd = {}
+    resd = OrderedDict()
     for elem in sorted_list:
-       print(elem.split("\n"))
-       resd["temp"] = elem
-       
+       title = bytes(elem, 'utf-8').split(b'\n')[0].decode("utf-8") #TODO convert back to string
+       resd[title] = elem
 
-    #with open("temp_output.txt", "w") as f: #temp writing output to file TODO delete    
-        #f.writelines(to_print)
-    #    f.writelines(f'{len(sorted_list)}')
+    for key in resd.keys():
+       print(resd[key])
 
-    return [{"test": "test.html"}, len(sorted_list)]
+    return [resd, len(sorted_list)]
 
 find_product("True")
 
