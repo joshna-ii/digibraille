@@ -4,7 +4,7 @@ import csv
 from collections import OrderedDict
 
 
-def find_product(search_input): #TODO True works but not True Grit
+def find_product(search_input):
     db_name = "database263000.csv"
     #convert database in csv to dict TODO move to webapp.py for efficiency
     d = {}
@@ -34,15 +34,14 @@ def find_product(search_input): #TODO True works but not True Grit
     #   return google(search_input)
                  
     sorted_list = sorted(recipe_count, reverse=True)
-    #if len(sorted_list) > 10: TODO
-    #   sorted_list = sorted[:10]
+    count = min(10,len(sorted_list))
 
     resd = OrderedDict()
     for elem in sorted_list:
        title = bytes(elem, 'utf-8').split(b'\n')[0].decode("utf-8")
        resd[title] = elem
 
-    return [resd, len(sorted_list)]
+    return [resd, count]
 
 
 #webscrapes and outputs website info given input link

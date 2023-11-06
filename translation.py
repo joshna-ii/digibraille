@@ -66,7 +66,7 @@ def uncontracted_translation(s):
     return trans
 
 
-def contracted_translation(inp):  #TODO add more
+def contracted_translation(inp):
     res = re.sub(r"\"", "`", inp) #conflict prevention
     #final letter groupsigns
     res = re.sub(r"ound |ound$", "kd", res)
@@ -129,40 +129,69 @@ def contracted_translation(inp):  #TODO add more
 
 
 
-#translate arrays of 6 to arrys of 4 based on solenoid locations TODO
+#translate arrays of 6 to arrys of 4 based on solenoid locations
 def solenoid_combos(inp):
     line_diff = 16 #number of lines in between pairs of solenoids
     char_per_line = 24 #number of embossed characters per line
-    halfway = math.ceil((line_diff * char_per_line)/2)
+    halfway = math.ceil((line_diff * char_per_line)/2) #start of second pair
     total_char = len(inp)
     instructions = []
-    if total_char > halfway:
+    if total_char > halfway: #decide if second pair embosses at all
         pair1 = inp[:halfway]
         pair2 = inp[halfway:]
     else:
         pair1 = inp
         pair2 = []
-    full_lines = math.floor(len(pair1)/24)
+    pair1_lines = math.floor(len(pair1)/24)
     pair2_lines = math.floor(len(pair2)/24)
     len_last_pair1 = len(pair1)%24
     len_last_pair2 = len(pair2)%24
-    for i in range(full_lines):
+    for i in range(pair1_lines):
         for j in [0,2,4]:
             for k in range(12):
-                combo1 = [pair1[i*24+k][j],pair1[i*24+k+12][j]]
-                combo2 = [pair1[i*24+k][j+1],pair1[i*24+k+12][j+1]]
+                combo1 = [pair1[i*24+k][j],pair1[i*24+k+12][j]] #add solenoid 1 and 2
+                combo2 = [pair1[i*24+k][j+1],pair1[i*24+k+12][j+1]] #add solenoid 1 and 2
+                if pair2_lines < i or (pair2_lines == i and len_last_pair2 > k): #if solenoid 3 has a char
+                    combo1.append(pair2[i*24+k][j]) #add solenoid 3
+                    combo2.append(pair2[i*24+k][j+1]) #add solenoid 3
+                    if len_last_pair2 > k+12: #if solenoid 4 has a char
+                        combo1.append(pair2[i*24+k+12][j+1]) #add solenoid 4
+                        combo2.append(pair2[i*24+k+12][j+1]) #add solenoid 4
+                    else:
+                        combo1.append(0) #add solenoid 4
+                        combo2.append(0) #add solenoid 4
+                else:
+                    combo1.append(0) #add solenoid 3
+                    combo2.append(0) #add solenoid 3
+                    combo1.append(0) #add solenoid 4
+                    combo2.append(0) #add solenoid 4
                 instructions.append(combo1)
                 instructions.append(combo2)
     for j in [0,2,4]:
         for k in range(len_last_pair1):
-            combo1 = [pair1[full_lines*24+k][j]]
-            combo2 = [pair1[full_lines*24+k][j+1]]
-            if len_last_pair1 > k+12:
-                combo1.append(pair1[full_lines*24+k+12][j])
-                combo2.append(pair1[full_lines*24+k+12][j+1])
+            combo1 = [pair1[pair1_lines*24+k][j]] #adds solenoid 1
+            combo2 = [pair1[pair1_lines*24+k][j+1]] #adds solenoid 1
+            if len_last_pair1 > k+12: #if solenoid 2 has a char
+                combo1.append(pair1[pair1_lines*24+k+12][j]) #adds solenoid 2
+                combo2.append(pair1[pair1_lines*24+k+12][j+1]) #adds solenoid 2
             else:
-                combo1.append(0)
-                combo2.append(0)
+                combo1.append(0) #adds solenoid 2
+                combo2.append(0) #adds solenoid 2
+            if pair2_lines == pair1_lines: #if second pair might have chars
+                if len_last_pair2 > k: #if solenoid 3 has a char
+                    combo1 = [pair2[pair2_lines*24+k][j]] #adds solenoid 3
+                    combo2 = [pair2[pair2_lines*24+k][j+1]] #adds solenoid 3
+                    if len_last_pair2 > k+12: #if solenoid 4 has a char
+                        combo1.append(pair2[pair2_lines*24+k+12][j]) #adds solenoid 4
+                        combo2.append(pair2[pair2_lines*24+k+12][j+1]) #adds solenoid 4
+                    else:
+                        combo1.append(0) #adds solenoid 4
+                        combo2.append(0) #adds solenoid 4
+                else:
+                    combo1.append(0) #adds solenoid 3
+                    combo2.append(0) #adds solenoid 3
+                    combo1.append(0) #adds solenoid 4
+                    combo2.append(0) #adds solenoid 4
             instructions.append(combo1)
             instructions.append(combo2)
     #print(f'example instructions for 1 pair: {instructions}')
