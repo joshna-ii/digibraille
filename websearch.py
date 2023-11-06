@@ -4,7 +4,7 @@ import csv
 from collections import OrderedDict
 
 
-def find_product(search_input):
+def find_product(search_input): #TODO True works but not True Grit
     db_name = "database263000.csv"
     #convert database in csv to dict TODO move to webapp.py for efficiency
     d = {}
@@ -30,35 +30,31 @@ def find_product(search_input):
                 else:
                     recipe_count[recipe] = 1
 
-    if recipe_count == {}:
-       return google(search_input)
+    #if recipe_count == {}: TODO
+    #   return google(search_input)
                  
     sorted_list = sorted(recipe_count, reverse=True)
-    if len(sorted_list) > 10:
-       sorted_list = sorted[:10]
+    #if len(sorted_list) > 10: TODO
+    #   sorted_list = sorted[:10]
 
     resd = OrderedDict()
     for elem in sorted_list:
-       title = bytes(elem, 'utf-8').split(b'\n')[0].decode("utf-8") #TODO convert back to string
+       title = bytes(elem, 'utf-8').split(b'\n')[0].decode("utf-8")
        resd[title] = elem
-
-    for key in resd.keys():
-       print(resd[key])
 
     return [resd, len(sorted_list)]
 
-find_product("True")
 
 #webscrapes and outputs website info given input link
 def print_link(search_input):
    url = search_input.strip()
    resp=requests.get(url)
-      
    #http_response 200 means OK status
    if resp.status_code==200: #if link
       return resp.content #TODO take only important parts
    else:
       return "error"
+
 
 #searches google for relevant website given keywords
 def google(keywords):

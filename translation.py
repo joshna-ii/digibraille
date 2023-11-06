@@ -26,7 +26,7 @@ pre_num = [0,0,1,1,1,1]
 after_num = [0,1,1,0,0,0] #only need if there isn't a space between number and alphabet
 pre_cap = [0,0,0,0,0,1]
 
-#create uncontracted braille function TODO
+
 def uncontracted_translation(s):
     cap = False
     num = False
@@ -65,9 +65,7 @@ def uncontracted_translation(s):
     return trans
 
 
-
-#contracted braille TODO
-def contracted_translation(inp):
+def contracted_translation(inp):  #TODO add more
     res = re.sub(r"\"", "`", inp) #conflict prevention
     #final letter groupsigns
     res = re.sub(r"ound |ound$", "kd", res)
@@ -86,6 +84,7 @@ def contracted_translation(inp):
     res = re.sub(r"day |^day", "`d", res)
     #shortform words
     res = re.sub(r" about |^about | about$|^about$", "ab", res)
+    return uncontracted_translation(res)
 
 
 
