@@ -82,9 +82,49 @@ def contracted_translation(inp):  #TODO add more
     res = re.sub(r"ment |ment$", "\"t", res)
     res = re.sub(r"ity |ity$", "\"y", res)
     #initial letter contractions
-    res = re.sub(r"day |^day", "`d", res)
+    res = re.sub(r"day", "`d", res)
+    res = re.sub(r"ever", "`e", res)
+    res = re.sub(r"father", "`f", res)
+    res = re.sub(r"here", "`h", res)
+    res = re.sub(r"know", "`k", res)
+    res = re.sub(r"lord", "`l", res)
+    res = re.sub(r"mother", "`m", res)
+    res = re.sub(r"name", "`n", res)
+    res = re.sub(r"one", "`o", res)
+    res = re.sub(r"part", "`p", res)
+    res = re.sub(r"question", "`q", res)
+    res = re.sub(r"right", "`r", res)
+    res = re.sub(r"some", "`s", res)
+    res = re.sub(r"time", "`t", res)
+    res = re.sub(r"under", "`u", res)
+    res = re.sub(r"work", "`w", res)
+    res = re.sub(r"young", "`y", res)
     #shortform words
     res = re.sub(r" about |^about | about$|^about$", "ab", res)
+    #alphabetic wordsigns
+    res = re.sub(r" but |^but | but$|^but$", "b", res)
+    res = re.sub(r" can |^can | can$|^can$", "c", res)
+    res = re.sub(r" do |^do | do$|^do$", "d", res)
+    res = re.sub(r" every |^every | every$|^every$", "e", res)
+    res = re.sub(r" from |^from | from$|^from$", "f", res)
+    res = re.sub(r" go |^go | go$|^go$", "g", res)
+    res = re.sub(r" have |^have | have$|^have$", "h", res)
+    res = re.sub(r" just |^just | just$|^just$", "j", res)
+    res = re.sub(r" knowledge |^knowledge | knowledge$|^knowledge$", "k", res)
+    res = re.sub(r" like |^like | like$|^like$", "l", res)
+    res = re.sub(r" more |^more | more$|^more$", "m", res)
+    res = re.sub(r" not |^not | not$|^not$", "n", res)
+    res = re.sub(r" people |^people | people$|^people$", "p", res)
+    res = re.sub(r" quite |^quite | quite$|^quite$", "q", res)
+    res = re.sub(r" rather |^rather | rather$|^rather$", "r", res)
+    res = re.sub(r" so |^so | so$|^so$", "s", res)
+    res = re.sub(r" that |^that | that$|^that$", "t", res)
+    res = re.sub(r" us |^us | us$|^us$", "u", res)
+    res = re.sub(r" very |^very | very$|^very$", "v", res)
+    res = re.sub(r" will |^will | will$|^will$", "w", res)
+    res = re.sub(r" it |^it | it$|^it$", "x", res)
+    res = re.sub(r" you |^you | you$|^you$", "b", res)
+    res = re.sub(r" as |^as | as$|^as$", "z", res)
     return uncontracted_translation(res)
 
 
@@ -94,7 +134,6 @@ def solenoid_combos(inp):
     line_diff = 16 #number of lines in between pairs of solenoids
     char_per_line = 24 #number of embossed characters per line
     halfway = math.ceil((line_diff * char_per_line)/2)
-    print(halfway)
     total_char = len(inp)
     instructions = []
     if total_char > halfway:
