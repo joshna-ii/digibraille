@@ -1,4 +1,5 @@
 import re
+import math
 
 #uncontract dictionaries
 abcx_dict = {"a": [1,0,0,0,0,0], "b": [1,1,0,0,0,0], "c": [1,0,0,1,0,0], "d": [1,0,0,1,1,0], "e": [1,0,0,0,1,0],
@@ -89,5 +90,46 @@ def contracted_translation(inp):  #TODO add more
 
 
 #translate arrays of 6 to arrys of 4 based on solenoid locations TODO
-line_diff = 16 #number of lines in between pairs of solenoids
-char_per_line = 24 #number of embossed characters per line
+def solenoid_combos(inp):
+    line_diff = 16 #number of lines in between pairs of solenoids
+    char_per_line = 24 #number of embossed characters per line
+    halfway = math.ceil((line_diff * char_per_line)/2)
+    print(halfway)
+    total_char = len(inp)
+    instructions = []
+    if total_char > halfway:
+        pair1 = inp[:halfway]
+        pair2 = inp[halfway:]
+    else:
+        pair1 = inp
+        pair2 = []
+    full_lines = math.floor(len(pair1)/24)
+    pair2_lines = math.floor(len(pair2)/24)
+    len_last_pair1 = len(pair1)%24
+    len_last_pair2 = len(pair2)%24
+    for i in range(full_lines):
+        for j in [0,2,4]:
+            for k in range(12):
+                combo1 = [pair1[i*24+k][j],pair1[i*24+k+12][j]]
+                combo2 = [pair1[i*24+k][j+1],pair1[i*24+k+12][j+1]]
+                instructions.append(combo1)
+                instructions.append(combo2)
+    for j in [0,2,4]:
+        for k in range(len_last_pair1):
+            combo1 = [pair1[full_lines*24+k][j]]
+            combo2 = [pair1[full_lines*24+k][j+1]]
+            if len_last_pair1 > k+12:
+                combo1.append(pair1[full_lines*24+k+12][j])
+                combo2.append(pair1[full_lines*24+k+12][j+1])
+            else:
+                combo1.append(0)
+                combo2.append(0)
+            instructions.append(combo1)
+            instructions.append(combo2)
+    #print(f'example instructions for 1 pair: {instructions}')
+    return instructions
+
+example = [[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,0],[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,1]]
+print(f'example braille:{example}\n\n')
+solenoid_combos(example)
+    

@@ -1,5 +1,5 @@
 from websearch import print_link, find_product
-from translation import uncontracted_translation, contracted_translation
+from translation import uncontracted_translation, contracted_translation, solenoid_combos
 
 #gets information from frontend then decides what to print
 #calls embossing functions
@@ -23,4 +23,5 @@ def print_translations(inp):
     with open("temp_output.txt", "w") as f:
         f.writelines(f'PAGE TO PRINT:\n{inp}\n\n\n')
         f.writelines(f'UNCONTRACTED TRANSLATION:\n{uncontracted_translation(inp)}\n\n\n')
-        f.writelines(f'CONTRACTED TRANSLATION:\n{contracted_translation(inp)}')
+        f.writelines(f'CONTRACTED TRANSLATION:\n{contracted_translation(inp)}\n\n\n')
+        f.writelines(f'SOLENOID INSTRUCTIONS FOR FIRST PAIR:\n{solenoid_combos(contracted_translation(inp))}')

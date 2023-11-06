@@ -1,7 +1,7 @@
 # importing Flask and other modules
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template
 import copy
-from main_backend import run_backend, print_translations
+from main_backend import run_backend
  
 # Flask constructor
 app = Flask(__name__)  
