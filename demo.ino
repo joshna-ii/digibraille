@@ -1,4 +1,3 @@
-
 String command;
 
 int s1 = 10; 
