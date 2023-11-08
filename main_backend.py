@@ -21,6 +21,7 @@ def run_backend(input_type, inp):
 #writes translations to file for interim demo
 def print_translations(inp):
     with open("temp_output.txt", "w") as f:
+        f.writelines(f'Try on 172.26.17.171\n\n\n')
         f.writelines(f'PAGE TO PRINT:\n{inp}\n\n\n')
         f.writelines(f'UNCONTRACTED TRANSLATION:\n{uncontracted_translation(inp)}\n\n\n')
         f.writelines(f'CONTRACTED TRANSLATION:\n{contracted_translation(inp)}\n\n\n')

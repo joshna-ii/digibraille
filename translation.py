@@ -194,7 +194,7 @@ def solenoid_combos(inp):
                     combo2.append(0) #adds solenoid 4
             instructions.append(combo1)
             instructions.append(combo2)
-    print(pair2)
+    #print(pair2)
     #print(f'example instructions for 1 pair: {instructions}')
     return instructions
 
