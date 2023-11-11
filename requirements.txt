@@ -2,4 +2,11 @@ bs4
 flask
 requests
 html5lib
+<<<<<<< HEAD
 googlesearch
+=======
+pandas
+lxml
+re
+csv
+>>>>>>> bc01dcb3cb579b96d844c063d53891a779ddee41

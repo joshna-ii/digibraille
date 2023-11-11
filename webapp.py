@@ -1,8 +1,14 @@
 # importing Flask and other modules
+<<<<<<< HEAD
 from flask import Flask, request, render_template, jsonify
 from websearch import print_link, find_product
 import copy
 #from main_backend import run_backend
+=======
+from flask import Flask, request, render_template
+import copy
+from main_backend import run_backend
+>>>>>>> bc01dcb3cb579b96d844c063d53891a779ddee41
  
 # Flask constructor
 app = Flask(__name__)  
@@ -49,8 +55,12 @@ def typenotes():
       if request.method == "POST":
          # getting input with notes in HTML form
          notes_input = request.form.get("notes")
+<<<<<<< HEAD
          #run_backend(search_input, notes_input) #from websearch.py REMEMBER TO UNCOMMENT WHEN DONE
         #return f'printing now:\n{notes_input}' #TODO find way to have a back and forth for product searching
+=======
+         run_backend("notes", notes_input)
+>>>>>>> bc01dcb3cb579b96d844c063d53891a779ddee41
    return render_template("typenotes.html")
 
 
@@ -63,9 +73,13 @@ def searchproduct(page=0):
 
          # getting input with search in HTML form
          search_input = request.form.get("search")
+<<<<<<< HEAD
          # getting input with notes in HTML form
          #run_backend(search_input, notes_input) #from websearch.py REMEMBER TO UNCOMMENT WHEN DONE
          [results,n] = find_product(search_input)
+=======
+         [results,n] = run_backend("search", search_input)
+>>>>>>> bc01dcb3cb579b96d844c063d53891a779ddee41
 
          items_per_page = 5
          start_index = page*items_per_page + 0 
@@ -78,10 +92,15 @@ def searchproduct(page=0):
                options_to_display[key] = results[key]
             c += 1 
 
+<<<<<<< HEAD
         # results = results.splitlines()
          search_performed = bool(results)
          return render_template("searchproduct.html",results=options_to_display,num=n,search_input=search_input,search_performed=search_performed,current_page=page)#TODO find way to have a back and forth for product searching
          # return run back-end 
+=======
+         search_performed = bool(results)
+         return render_template("searchproduct.html",results=options_to_display,num=n,search_input=search_input,search_performed=search_performed,current_page=page)
+>>>>>>> bc01dcb3cb579b96d844c063d53891a779ddee41
 
    if (results == []):
       return render_template("searchproduct.html",current_page=page)
@@ -97,7 +116,11 @@ def searchproduct(page=0):
          if ( c >= start_index and c < end_index):
             options_to_display[key] = results[key]
          c += 1 
+<<<<<<< HEAD
       return render_template("searchproduct.html",results=options_to_display,num=n,search_input=search_input,search_performed=search_performed,current_page=page)#TODO find way to have a back and forth for product searching
+=======
+      return render_template("searchproduct.html",results=options_to_display,num=n,search_input=search_input,search_performed=search_performed,current_page=page)
+>>>>>>> bc01dcb3cb579b96d844c063d53891a779ddee41
 
 
 
@@ -110,9 +133,13 @@ def nextpage(results=results):
          # getting input with search in HTML form
          if request.method == "POST":
             search_input = request.form.get("search")
+<<<<<<< HEAD
          # getting input with notes in HTML form
          #run_backend(search_input, notes_input) #from websearch.py REMEMBER TO UNCOMMENT WHEN DONE
          [results,n] = find_product(search_input)
+=======
+         [results,n] = run_backend("search", search_input)
+>>>>>>> bc01dcb3cb579b96d844c063d53891a779ddee41
 
          items_per_page = 5
          start_index = page*items_per_page + 0 
@@ -125,17 +152,25 @@ def nextpage(results=results):
                options_to_display[key] = results[key]
             c += 1 
 
+<<<<<<< HEAD
          
         # results = results.splitlines()
          search_performed = bool(results)
          return render_template("nextpage.html",results=options_to_display,num=n,search_input=search_input,search_performed=search_performed,current_page=page)#TODO find way to have a back and forth for product searching
          # return run back-end 
        #  if ( request.method == "POST"): DO SOMETHING IF USER WANTS TO SEARCH AGAIN ON SAME PAGE
+=======
+         search_performed = bool(results)
+         return render_template("nextpage.html",results=options_to_display,num=n,search_input=search_input,search_performed=search_performed,current_page=page)
+>>>>>>> bc01dcb3cb579b96d844c063d53891a779ddee41
 
    return render_template("nextpage.html",current_page=page,search_input=search_input)
 
 def parse_nutrition(lines,values):
+<<<<<<< HEAD
    
+=======
+>>>>>>> bc01dcb3cb579b96d844c063d53891a779ddee41
    i = 0
    hit = 0
    nutrition = ""
@@ -211,28 +246,42 @@ def parse_input(product_info):
 @app.route('/results', methods =["GET", "POST"])
 def results_func():
    global results, options_to_display, product_info, button_value, button_name      
+<<<<<<< HEAD
 
    # name for product selected 
    button_value = request.form.get('button')
    notes_input = ""
 
+=======
+   # name for product selected 
+   button_value = request.form.get('button')
+>>>>>>> bc01dcb3cb579b96d844c063d53891a779ddee41
    if (button_value != None):
       product_info = results[button_value]
       product_info = parse_input(product_info)
    else:
       product_info = ""
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> bc01dcb3cb579b96d844c063d53891a779ddee41
    if (button_value in options_to_display):
       page = 2
    else:
       page = 1
+<<<<<<< HEAD
 
    
    button_name = request.form.get('print')
 
 
 
+=======
+   
+   button_name = request.form.get('print')
+
+>>>>>>> bc01dcb3cb579b96d844c063d53891a779ddee41
    return render_template("results.html",product_name=button_value,page_num=page, product_info=product_info,buttonPressed=buttonPressed)
 
 
@@ -240,23 +289,34 @@ def results_func():
 @app.route('/resultsprint', methods =["GET", "POST"])
 def results_print():
    global results, options_to_display, product_info, button_value, button_name      
+<<<<<<< HEAD
 
    print("here")
    
+=======
+   run_backend("translation", (results[button_value]))
+>>>>>>> bc01dcb3cb579b96d844c063d53891a779ddee41
 
    if (button_value in options_to_display):
       page = 2
    else:
       page = 1
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> bc01dcb3cb579b96d844c063d53891a779ddee41
    return render_template("results.html",product_name=button_value,page_num=page, product_info=product_info,buttonPressed=buttonPressed)
 
 
 if __name__=='__main__':
+<<<<<<< HEAD
    app.run(host='0.0.0.0', port=80,debug=True)
+=======
+   app.run(host='0.0.0.0', port=80, debug=True)
+>>>>>>> bc01dcb3cb579b96d844c063d53891a779ddee41
 
 
 
