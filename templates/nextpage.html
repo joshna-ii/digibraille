@@ -1,0 +1,97 @@
+<!doctype html>
+<!--HTML FILE FOR PRODUCT SEARCHING FEATURE OF WEBSITE-->
+
+<html>
+
+    <body>
+        <h1 style = "font-size: 20px; font-family:Arial, Helvetica, sans-serif;"> <!--heading-->
+            DIGIBRAILLE
+            <link rel="stylesheet" href="{{ url_for('static', filename= 'css/title.css') }}">
+        </h1>
+
+        <h2 style = "position:relative; left:440px; top:15px; font-size: 25px; font-family:Arial, Helvetica, sans-serif;"> <!--heading-->
+            Search
+        </h2>
+
+        <a href="/"> <!--type and print notes feature-->
+            <button id="notes" class="both" style = "position:relative; left:916px; top:-45px;">
+                MENU
+                <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_buttons.css') }}">
+            </button>
+        </a>
+
+
+    </body>
+
+    <br>
+    <br>
+
+    <form action="{{ url_for("searchproduct")}}" method="post"> 
+
+        <div> <center> 
+        <textarea id="notes" name="search" placeholder="Type Here" cols="50" rows="2"></textarea>
+        <input  type="submit" id="search" name="notes" class = "search" value="Search"  style = "position:relative; left:50px; top:-9px; font-size: 20px;">
+        <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_buttons.css') }}">
+        </center> </div>
+      
+    </form>
+
+    <body>
+        <style>
+            ul {
+                position:relative; 
+                left:400px; 
+                top:30px;
+            }
+            li {
+                font-size: 18px;  /* Increase font size to 18 pixels */
+            }
+
+            .search-info {
+                text-align: center; /* Center-align the text within the div */
+                color: gray; 
+            }
+        </style>
+
+        <br>
+        <br>
+
+  
+
+        {% if search_performed %}
+
+        <div id="search-input" class = "search-info">
+            Search Results for [{{search_input}}]  {{num}} matching products
+
+            {% if num > 4 %}
+                <a href="/searchproduct"> <!--type and print notes feature-->
+                    <button id="prevpage"  class="both" style = "  position:relative; left:140px; top:280px; width: 80px; font-size: 20px">
+                        Prev
+                    </button>
+                </a>
+            {% endif %}
+        </div>
+
+        <form method="POST" action="/results"> 
+        <ul style="list-style-type: none;">
+            {% for result in results %}        
+                <a href="/results"> <!--type and print notes feature-->
+                    <button  type= 'submit' name = 'button' value = {{result}}  id={{result}} style = "font-size: 15px; border: none; background-color: #FFFFFF; display: block">
+                        {{result}}
+                    </button>
+                </a>
+                <br>
+            {% endfor %}
+        </ul>
+        </form>
+
+        {% endif %}
+
+
+    
+        
+
+
+    
+
+</html>

@@ -1,11 +1,42 @@
-from googlesearch import search
 import requests
 from bs4 import BeautifulSoup
+import csv
 
 
 #TODO uses keywords to find info from database
 def find_product(search_input):
-    return "need to get info from database in database_output.txt"
+    #convert database in csv to dict TODO move to webapp.py for efficiency
+    d = {}
+    with open('database263000.csv', 'r') as db:
+       rdr = csv.reader(db)
+       next(rdr)
+       for row in rdr:
+          d[row[0]] = row[1:]
+
+    to_print = ""
+
+    recipe_count = {}
+    words = search_input.split(" ")
+    for word in words:
+        if not (word.lower() in ["and", "the", "or", "of", "by", "directions", "for", "me"]):
+           if word in d.keys():
+              recipes = d[word]
+
+              for recipe in recipes:
+                to_print += recipe
+                if recipe in recipe_count.keys():
+                    recipe_count[recipe] = recipe_count[recipe] + 1
+                else:
+                    recipe_count[recipe] = 1
+                 
+    sorted_list = sorted(recipe_count, reverse=True)
+    #with open("temp_output.txt", "w") as f: #temp writing output to file TODO delete    
+        #f.writelines(to_print)
+    #    f.writelines(f'{len(sorted_list)}')
+
+    return [{"test": "test.html"}, len(sorted_list)]
+
+find_product("True")
 
 #webscrapes and outputs website info given input link
 def print_link(search_input):
@@ -33,4 +64,3 @@ def google(keywords):
     search = soup.find(id = 'search')
     first_link = search.find('a')
     return print_link(first_link['href'])
-

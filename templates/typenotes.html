@@ -1,33 +1,37 @@
 <!doctype html>
+<script src="clear_section.js"></script>
+
 <!--HTML FILE FOR TYPE NOTES FEATURE OF WEBSITE-->
 
 <html>
     <tbody>  
         <h1 style = "font-size: 20px;"><!--heading-->
             DIGIBRAILLE
-            <link rel="stylesheet" href="{{ url_for('static', filename= 'css/title.css') }}">
+            <link rel="stylesheet" href="{{ url_for('static', filename= 'css/title_n.css') }}">
         </h1>
         <div> 
         <h2 style = "position:relative; left:300px; top:10px; font-size: 35px; font-family:Arial, Helvetica, sans-serif;"> 
             Type Below: 
-            <link rel="stylesheet" href="{{ url_for('static', filename= 'css/subheading.css') }}">
+            <link rel="stylesheet" href="{{ url_for('static', filename= 'css/subheading_n.css') }}">
+            
         </h2>
 
             <a href="/"> <!--type and print notes feature-->
-                <button id="notes" class="both" style = "position:relative; left:1040px; top:-45px; font-size: 30px; font-family:Arial, Helvetica, sans-serif;">
-                    Back
+                <button id="notes" class="both" style = "position:relative; left:1010px; top:-45px; font-size: 25px; font-family:Arial, Helvetica, sans-serif;">
+                    BACK
+                    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_buttons.css') }}">
                 </button>
             </a>
         </div>  
-
 
      
     <form action="{{ url_for("typenotes")}}" method="post"> <center>
       <textarea id="notes" name="notes" placeholder="Type Here" cols="100" rows="30"></textarea> 
         <br>
         <div>
-            <input  type="submit" id="notes" name="notes" value="Print" style = "position:relative; left:-330px; top:10px; font-size: 30px; font-family:Arial, Helvetica, sans-serif;">
-            <input type="reset" id="clearButton" name="clearButton" value="Clear" style = "position:relative; left:330px; top:10px; font-size: 30px; font-family:Arial, Helvetica, sans-serif;"> 
+            <input  type="submit" id="notes" name="notes" value="PRINT" onclick="clearTextArea()" class="both" style = "position:relative; left:-290px; top:10px; font-size: 25px; font-family:Arial, Helvetica, sans-serif;">
+            <input type="reset" id="clearButton" name="clearButton" value="Clear" class = "both" style = "position:relative; left:290px; top:10px; font-size: 25px; font-family:Arial, Helvetica, sans-serif;"> 
+            <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_buttons.css') }}">
            <!-- <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_button.css') }}">-->
         </div>
     </form> </center>

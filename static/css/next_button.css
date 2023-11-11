@@ -1,0 +1,40 @@
+.nextpage {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    background-color: white;
+
+    width: 100px;
+    text-transform: uppercase;
+    padding: 10px 10px;
+    font-size: 15px;
+    color: black;
+    letter-spacing: 2px;
+    font-weight: bold;
+    border-radius: 10px;
+    margin: 10px;
+    outline: none;
+    border: 3px solid black;
+    transition: all ease 0.5s;
+    position:relative; 
+    left:200px; 
+    top:200px;
+  }
+  #first {
+    background-color: white;
+    cursor: pointer;
+  }
+  #fist:hover {
+    background-color: white;
+    color: white;
+    border: 3px solid black;
+  }
+  #second {
+    background-color: white;
+    cursor: pointer;
+  }
+  #second:hover {
+    background-color: white;
+    color: white;
+    border: 3px solid black;
+  }
