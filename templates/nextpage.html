@@ -8,18 +8,26 @@
         <!-- Your other head elements, styles, etc. -->
     </head>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
     <body>
         <h1 style = "font-size: 20px; font-family:Arial, Helvetica, sans-serif;"> <!--heading-->
             DIGIBRAILLE
             <link rel="stylesheet" href="{{ url_for('static', filename= 'css/title.css') }}">
         </h1>
 
-        <h2 style = "position:relative; left:440px; top:15px; font-size: 25px; font-family:Arial, Helvetica, sans-serif;"> <!--heading-->
+        <h2 style = "position:absolute; top: 60px; left: 12px; font-size: 25px; font-family:Arial, Helvetica, sans-serif;"> <!--heading-->
             Search
         </h2>
 
+        <button id="notes"  style = " position: absolute; top: 85px; left: 100px; font-size: 16px; margin-left: 5px; font-family:Arial, Helvetica, sans-serif; background: none; border: none;">
+            <i class="fa fa-microphone"  style="font-size:20px; color: black;"></i>
+
+        </button>
+
         <a href="/"> <!--type and print notes feature-->
-            <button id="notes" class="both" style = "position:relative; left:916px; top:-45px;">
+            <button id="notes" class="menu" style = "position:absolute; top: 85px; right: 12px; text-align:center; font-size: 16px; ">
                 MENU
                 <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_buttons.css') }}">
             </button>
@@ -30,14 +38,15 @@
 
     <br>
     <br>
+    <br>
+    <br>
 
     <form action="{{ url_for("searchproduct")}}" method="post"> 
 
-        <div> <center> 
-        <textarea id="notes" name="search" placeholder="Type Here" cols="50" rows="2"></textarea>
-        <input  type="submit" id="search" name="notes" class = "search" value="Search"  style = "position:relative; left:50px; top:-9px; font-size: 20px;">
-        <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_buttons.css') }}">
-        </center> </div>
+        <div> 
+            <textarea id="notes" name="search" placeholder="Type Here" style = "font-size: 25px; width: 60vw; height: 5vh;"></textarea>
+            <input  type="submit" id="search" name="search" class = "search" value="Search"  style = "text-align:center;position:absolute; top: 155px; right: 12px; font-size: 13px;"> 
+         </div>
       
     </form>
 
@@ -55,6 +64,7 @@
             .search-info {
                 text-align: center; /* Center-align the text within the div */
                 color: gray; 
+                font-family:Arial, Helvetica, sans-serif;
             }
         </style>
 
@@ -66,30 +76,30 @@
         {% if search_performed %}
 
         <div id="search-input" class = "search-info">
-            Search Results for [{{search_input}}]  {{num}} matching products
+            Search Results for  [<span style="font-weight: bold;">{{search_input}}</span>]  <span style="font-weight: bold;">{{num}} </span> matching products
 
             {% if num > 4 %}
                 <a href="/searchproduct"> <!--type and print notes feature-->
-                    <button id="prevpage"  class="both" style = "  position:relative; left:140px; top:280px; width: 80px; font-size: 20px">
+                    <button id="prevpage"  class="both" style = "position:absolute; top: 600px; right: 12px;  font-size: 16px">
                         Prev
                     </button>
                 </a>
             {% endif %}
         </div>
 
-        <form method="POST" action="/results"> 
-        <ul style="list-style-type: none;">
-            {% for result in results %}        
-                <a href="/results"> <!--type and print notes feature-->
-                    <button  type= 'submit' name = 'button' value = "{{result}}"  id="{{result}}" style = "font-size: 15px; border: none; background-color: #FFFFFF; display: block">
-                        {{result}}
-                    </button>
+        <form method="POST" action="/results">
+            <ul style="list-style-type: none; position:absolute; left:0px;  padding: 0px; top:300px; ">
+                {% for result in results %}   
+                <a style = "color: black" href="/results"> <!--type and print notes feature-->     
+                        <button type= 'submit' name = 'button' value = "{{result}}" id="{{result}}" style = "text-align: left; font-size: 15px;  width: 100%; border: none; color: black; background-color: #FFFFFF; display: block">
+                            {{result}}
+                        </button>
                 </a>
-                <br>
-            {% endfor %}
-        </ul>
-        </form>
-
+                    <br>
+                {% endfor %}
+            </ul>
+            </form>
+    
         {% endif %}
 
 
