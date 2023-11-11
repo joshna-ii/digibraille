@@ -1,9 +1,6 @@
-<<<<<<< HEAD
-=======
 import re
 import math
 
->>>>>>> bc01dcb3cb579b96d844c063d53891a779ddee41
 #uncontract dictionaries
 abcx_dict = {"a": [1,0,0,0,0,0], "b": [1,1,0,0,0,0], "c": [1,0,0,1,0,0], "d": [1,0,0,1,1,0], "e": [1,0,0,0,1,0],
                     "f": [1,1,0,1,0,0], "g": [1,1,0,1,1,0], "h": [1,1,0,0,1,0], "i": [0,1,0,1,0,0], "j": [0,1,0,1,1,0],
@@ -12,11 +9,7 @@ abcx_dict = {"a": [1,0,0,0,0,0], "b": [1,1,0,0,0,0], "c": [1,0,0,1,0,0], "d": [1
                     "u": [1,0,1,0,0,1], "v": [1,1,1,0,0,1], "w": [0,1,0,1,1,1], "x": [1,0,1,1,0,1], "y": [1,0,1,1,1,1],
                     "z": [1,0,1,0,1,1], ".": [0,1,0,0,1,1], ",": [0,1,0,0,0,0], "#": [0,0,1,1,1,1], " ": [0,0,0,0,0,0],
                     ";": [0,1,1,0,0,0], ":": [0,1,0,0,1,0], "/": [0,0,1,1,0,0], "?": [0,1,1,0,0,1], "!": [0,1,1,0,1,0],
-<<<<<<< HEAD
-                    "@": [0,0,1,1,1,0], "+": [0,1,1,0,1,0], "-": [0,1,0,0,1,0], "\"": [0,0,0,0,1,0], "'": [0,0,1,0,0,0],
-=======
                     "@": [0,0,1,1,1,0], "+": [0,1,1,0,1,0], "-": [0,1,0,0,1,0], "\"": [0,0,0,0,1,1], "'": [0,0,1,0,0,0],
->>>>>>> bc01dcb3cb579b96d844c063d53891a779ddee41
                     "_": [0,0,0,1,1,1], "`": [0,0,0,0,1,0]}
 
 special_dict = {"$": ([0,0,0,1,0,0],[0,1,0,0,1,1]),"%": ([0,0,0,1,0,0],[0,1,0,0,1,0],[1,1,1,1,0,0]),
@@ -34,11 +27,6 @@ pre_num = [0,0,1,1,1,1]
 after_num = [0,1,1,0,0,0] #only need if there isn't a space between number and alphabet
 pre_cap = [0,0,0,0,0,1]
 
-<<<<<<< HEAD
-#create uncontracted braille function TODO
-=======
-
->>>>>>> bc01dcb3cb579b96d844c063d53891a779ddee41
 def uncontracted_translation(s):
     cap = False
     num = False
@@ -77,17 +65,6 @@ def uncontracted_translation(s):
     return trans
 
 
-<<<<<<< HEAD
-
-#contracted braille TODO
-#try for AB, AB CD, AbC, AB12CD, ab AB, AB cd
-#nested loop or separate loop?
-#brackets/parentheses
-
-
-
-#translate arrays of 6 to arrys of 4 based on solenoid locations
-=======
 def contracted_translation(inp):
     res = re.sub(r"\"", "`", inp) #conflict prevention
     #final letter groupsigns
@@ -240,4 +217,3 @@ example = [[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1]
 #print(f'example braille:{example}\n\n')
 solenoid_combos(example)
     
->>>>>>> bc01dcb3cb579b96d844c063d53891a779ddee41
