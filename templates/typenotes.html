@@ -9,6 +9,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Your other head elements, styles, etc. -->
     </head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        .parent {
+          position: relative;
+        }
+      
+        .child1 {
+            position:absolute;top: 85px; right: 10px; 
+        }
+
+        .child2 {
+            position: absolute; top: 75px; left: 10px;
+        }
+      </style>
 
     <tbody>  
         <h1 style = "font-size: 20px;"><!--heading-->
@@ -16,27 +31,34 @@
             <link rel="stylesheet" href="{{ url_for('static', filename= 'css/title_n.css') }}">
         </h1>
         <div> 
-        <h2 style = "position:relative; left:300px; top:10px; font-size: 35px; font-family:Arial, Helvetica, sans-serif;"> 
-            Type Below: 
+        <h2 class = "child2" style = "font-size: 20px; font-family:Arial, Helvetica, sans-serif;"> 
+            Type Below 
             <link rel="stylesheet" href="{{ url_for('static', filename= 'css/subheading_n.css') }}">
             
         </h2>
+        <button id="notes"  style = " position: absolute; top: 92px; left: 115px; font-size: 16px; margin-left: 5px; font-family:Arial, Helvetica, sans-serif; background: none; border: none;">
+            <i class="fa fa-microphone"  style="font-size:20px; color: black;"></i>
 
-            <a href="/"> <!--type and print notes feature-->
-                <button id="notes" class="both" style = "position:relative; left:1010px; top:-45px; font-size: 25px; font-family:Arial, Helvetica, sans-serif;">
+        </button>
+
+            <a class = "child1" href="/"> <!--type and print notes feature-->
+                <button id="notes" class="both" style = "font-size: 16px; font-family:Arial, Helvetica, sans-serif;">
                     BACK
                     <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_buttons.css') }}">
                 </button>
             </a>
         </div>  
 
-     
+    <br>
+    <br>
+    <br>
     <form action="{{ url_for("typenotes")}}" method="post"> <center>
-      <textarea id="notes" name="notes" placeholder="Type Here" cols="100" rows="30"></textarea> 
+      <textarea class = "parent" id="notes" name="notes" placeholder="Type Here" style= "font-size: 20px; width: 90vw; height: 50vh;"></textarea> 
+        <br>
         <br>
         <div>
-            <input  type="submit" id="notes" name="notes" value="PRINT" onclick="clearTextArea()" class="both" style = "position:relative; left:-290px; top:10px; font-size: 25px; font-family:Arial, Helvetica, sans-serif;">
-            <input type="reset" id="clearButton" name="clearButton" value="Clear" class = "both" style = "position:relative; left:290px; top:10px; font-size: 25px; font-family:Arial, Helvetica, sans-serif;"> 
+           <input class = "print" type="submit" id="notes" name="notes" value="PRINT" onclick="clearTextArea()" class="both" style = "margin-right: 85px; position:relative; font-size: 16px; font-family:Arial, Helvetica, sans-serif;"> 
+            <input type="reset" id="clearButton" name="clearButton" value="Clear" class = "print" style = "margin-left: 85px; position:relative; text-align: center;font-size: 16px; font-family:Arial, Helvetica, sans-serif;"> 
             <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_buttons.css') }}">
            <!-- <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_button.css') }}">-->
         </div>
@@ -44,6 +66,7 @@
 
 
     </tbody>
+
 
 
 

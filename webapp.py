@@ -81,7 +81,6 @@ def searchproduct(page=0):
             c += 1 
 
          search_performed = bool(results)
-         print(options_to_display)
          return render_template("searchproduct.html",results=options_to_display,num=n,search_input=search_input,search_performed=search_performed,current_page=page)
 
    if (results == []):
