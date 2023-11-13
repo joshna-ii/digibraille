@@ -7,6 +7,7 @@ import copy
 from flask import Flask, request, render_template
 import copy
 from main_backend import run_backend
+import re
 
 
 # Flask constructor
@@ -62,11 +63,13 @@ def typenotes():
 @app.route('/searchproduct', methods =["GET", "POST"])
 def searchproduct(page=0):
    global results,n, search_input  
+
    if request.path == '/searchproduct':
       if request.method == "POST":
 
          # getting input with search in HTML form
          search_input = request.form.get("search")
+
          [results,n] = run_backend("search", search_input)
 
          items_per_page = 5
@@ -136,24 +139,54 @@ def parse_nutrition(lines,values):
 
    for line in lines:
       values.add(line)
-      if (line == "Nutritional Facts"):
+      if (line == "Nutrition Facts"):
          hit = 1 
       if (hit == 1 and line):
-         if (line != "Nutritional Facts"):
+         if (line != "Nutrition Facts"):
             nutrition += line + """
 """
       if (hit == 1 and line == ''):
          break
    
-   nutr_lines = nutrition.split('\n')
-   for line in nutr_lines:
-      if line:
-         new_line = line.split(":")
-         for i in range(len(new_line)):  
-            new_line[i] = new_line[i].strip()
+   rem = ['']; 
+   units = ['g', 'mg'] #keep adding if there are more units
+   nutr_lines_v1 = re.split(r'[\n,:]', nutrition)
+   nutr_lines_v2 = [item for item in nutr_lines_v1 if item not in rem]
 
-         nut_dict[new_line[0]] = new_line[1]
+   new = ""; 
+   nutr_lines = []
+   i = 0
+   while i < (len(nutr_lines_v2)-1):
+      if nutr_lines_v2[i].isnumeric() and nutr_lines_v2[i+1] in units:
+         new =  nutr_lines_v2[i] +  nutr_lines_v2[i+1]
+         nutr_lines.append(new) 
+         i += 2
+      else:
+         nutr_lines.append(nutr_lines_v2[i]) 
+         i += 1 
       
+
+   i = 0 
+
+   while i < len(nutr_lines)-1:
+      curr = nutr_lines[i].replace(" ", "")
+      val = nutr_lines[i+1][0]
+ 
+      
+    
+      if curr.isalpha() and val.isnumeric():
+         k = i+1
+         add = ""
+      
+         while (val.isnumeric() and k < len(nutr_lines)-1):
+            add += (nutr_lines[k]) + " "
+            k += 1
+            val = nutr_lines[k][0]
+
+         nut_dict[ nutr_lines[i]] = add
+         i += 1
+      i += 1
+
    return nut_dict
 
 
@@ -177,7 +210,7 @@ def parse_input(product_info):
          continue
 
       if line:  # Check if the line is not empty
-         if (line == "Nutritional Facts"):
+         if (line == "Nutrition Facts"):
             parsed[line] = parse_nutrition(lines,values) 
          if not next_line:
             title = line 
