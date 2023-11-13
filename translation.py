@@ -27,7 +27,6 @@ pre_num = [0,0,1,1,1,1]
 after_num = [0,1,1,0,0,0] #only need if there isn't a space between number and alphabet
 pre_cap = [0,0,0,0,0,1]
 
-
 def uncontracted_translation(s):
     cap = False
     num = False
@@ -69,18 +68,18 @@ def uncontracted_translation(s):
 def contracted_translation(inp):
     res = re.sub(r"\"", "`", inp) #conflict prevention
     #final letter groupsigns
-    res = re.sub(r"ound |ound$", "kd", res)
-    res = re.sub(r"ance |ance$", "ke", res)
-    res = re.sub(r"sion |sion$", "kn", res)
-    res = re.sub(r"less |less$", "ks", res)
-    res = re.sub(r"ount |ount$", "kt", res)
-    res = re.sub(r"ence |ence$", "\"e", res)
-    res = re.sub(r"ong |ong$", "\"g", res)
-    res = re.sub(r"ful |ful$", "\"l", res)
-    res = re.sub(r"tion |tion$", "\"n", res)
-    res = re.sub(r"ness |ness$", "\"s", res)
-    res = re.sub(r"ment |ment$", "\"t", res)
-    res = re.sub(r"ity |ity$", "\"y", res)
+    res = re.sub(r"ound |ound$", "kd ", res)
+    res = re.sub(r"ance |ance$", "ke ", res)
+    res = re.sub(r"sion |sion$", "kn ", res)
+    res = re.sub(r"less |less$", "ks ", res)
+    res = re.sub(r"ount |ount$", "kt ", res)
+    res = re.sub(r"ence |ence$", "\"e ", res)
+    res = re.sub(r"ong |ong$", "\"g ", res)
+    res = re.sub(r"ful |ful$", "\"l ", res)
+    res = re.sub(r"tion |tion$", "\"n ", res)
+    res = re.sub(r"ness |ness$", "\"s ", res)
+    res = re.sub(r"ment |ment$", "\"t ", res)
+    res = re.sub(r"ity |ity$", "\"y ", res)
     #initial letter contractions
     res = re.sub(r"day", "`d", res)
     res = re.sub(r"ever", "`e", res)
@@ -100,105 +99,108 @@ def contracted_translation(inp):
     res = re.sub(r"work", "`w", res)
     res = re.sub(r"young", "`y", res)
     #shortform words
-    res = re.sub(r" about |^about | about$|^about$", "ab", res)
+    res = re.sub(r" about |^about | about$|^about$", " ab ", res)
     #alphabetic wordsigns
-    res = re.sub(r" but |^but | but$|^but$", "b", res)
-    res = re.sub(r" can |^can | can$|^can$", "c", res)
-    res = re.sub(r" do |^do | do$|^do$", "d", res)
-    res = re.sub(r" every |^every | every$|^every$", "e", res)
-    res = re.sub(r" from |^from | from$|^from$", "f", res)
-    res = re.sub(r" go |^go | go$|^go$", "g", res)
-    res = re.sub(r" have |^have | have$|^have$", "h", res)
-    res = re.sub(r" just |^just | just$|^just$", "j", res)
-    res = re.sub(r" knowledge |^knowledge | knowledge$|^knowledge$", "k", res)
-    res = re.sub(r" like |^like | like$|^like$", "l", res)
-    res = re.sub(r" more |^more | more$|^more$", "m", res)
-    res = re.sub(r" not |^not | not$|^not$", "n", res)
-    res = re.sub(r" people |^people | people$|^people$", "p", res)
-    res = re.sub(r" quite |^quite | quite$|^quite$", "q", res)
-    res = re.sub(r" rather |^rather | rather$|^rather$", "r", res)
-    res = re.sub(r" so |^so | so$|^so$", "s", res)
-    res = re.sub(r" that |^that | that$|^that$", "t", res)
-    res = re.sub(r" us |^us | us$|^us$", "u", res)
-    res = re.sub(r" very |^very | very$|^very$", "v", res)
-    res = re.sub(r" will |^will | will$|^will$", "w", res)
-    res = re.sub(r" it |^it | it$|^it$", "x", res)
-    res = re.sub(r" you |^you | you$|^you$", "b", res)
-    res = re.sub(r" as |^as | as$|^as$", "z", res)
+    res = re.sub(r" but |^but | but$|^but$", " b ", res)
+    res = re.sub(r" can |^can | can$|^can$", " c ", res)
+    res = re.sub(r" do |^do | do$|^do$", " d ", res)
+    res = re.sub(r" every |^every | every$|^every$", " e ", res)
+    res = re.sub(r" from |^from | from$|^from$", " f ", res)
+    res = re.sub(r" go |^go | go$|^go$", " g ", res)
+    res = re.sub(r" have |^have | have$|^have$", " h ", res)
+    res = re.sub(r" just |^just | just$|^just$", " j ", res)
+    res = re.sub(r" knowledge |^knowledge | knowledge$|^knowledge$", " k ", res)
+    res = re.sub(r" like |^like | like$|^like$", " l ", res)
+    res = re.sub(r" more |^more | more$|^more$", " m ", res)
+    res = re.sub(r" not |^not | not$|^not$", " n ", res)
+    res = re.sub(r" people |^people | people$|^people$", " p ", res)
+    res = re.sub(r" quite |^quite | quite$|^quite$", " q ", res)
+    res = re.sub(r" rather |^rather | rather$|^rather$", " r ", res)
+    res = re.sub(r" so |^so | so$|^so$", " s ", res)
+    res = re.sub(r" that |^that | that$|^that$", " t ", res)
+    res = re.sub(r" us |^us | us$|^us$", " u ", res)
+    res = re.sub(r" very |^very | very$|^very$", " v ", res)
+    res = re.sub(r" will |^will | will$|^will$", " w ", res)
+    res = re.sub(r" it |^it | it$|^it$", " x ", res)
+    res = re.sub(r" you |^you | you$|^you$", " b ", res)
+    res = re.sub(r" as |^as | as$|^as$", " z ", res)
+    res = res.strip()
     return uncontracted_translation(res)
-
-
 
 #translate arrays of 6 to arrys of 4 based on solenoid locations
 def solenoid_combos(inp):
-    line_diff = 16 #number of lines in between pairs of solenoids
+    line_diff = 4 #number of lines in between pairs of solenoids
+    char_diff = 4 #number of characters between solenoids
+    line_per_page = 32 #number of lines in the whole page
     char_per_line = 24 #number of embossed characters per line
-    halfway = math.ceil((line_diff * char_per_line)/2) #start of second pair
-    total_char = len(inp)
-    instructions = []
-    if total_char > halfway: #decide if second pair embosses at all
-        pair1 = inp[:halfway]
-        pair2 = inp[halfway:]
-    else:
-        pair1 = inp
-        pair2 = []
-    pair1_lines = math.floor(len(pair1)/24)
-    pair2_lines = math.floor(len(pair2)/24)
-    len_last_pair1 = len(pair1)%24
-    len_last_pair2 = len(pair2)%24
-    for i in range(pair1_lines):
-        for j in [0,2,4]:
-            for k in range(12):
-                combo1 = [pair1[i*24+k][j],pair1[i*24+k+12][j]] #add solenoid 1 and 2
-                combo2 = [pair1[i*24+k][j+1],pair1[i*24+k+12][j+1]] #add solenoid 1 and 2
-                if pair2_lines > i or (pair2_lines == i and len_last_pair2 > k): #if solenoid 3 has a char
-                    combo1.append(pair2[i*24+k][j]) #add solenoid 3
-                    combo2.append(pair2[i*24+k][j+1]) #add solenoid 3
-                    if len_last_pair2 > k+12: #if solenoid 4 has a char
-                        combo1.append(pair2[i*24+k+12][j+1]) #add solenoid 4
-                        combo2.append(pair2[i*24+k+12][j+1]) #add solenoid 4
-                    else:
-                        combo1.append(0) #add solenoid 4
-                        combo2.append(0) #add solenoid 4
-                else:
-                    combo1.append(0) #add solenoid 3
-                    combo2.append(0) #add solenoid 3
-                    combo1.append(0) #add solenoid 4
-                    combo2.append(0) #add solenoid 4
-                instructions.append(combo1)
-                instructions.append(combo2)
-    for j in [0,2,4]:
-        for k in range(len_last_pair1):
-            combo1 = [pair1[pair1_lines*24+k][j]] #adds solenoid 1
-            combo2 = [pair1[pair1_lines*24+k][j+1]] #adds solenoid 1
-            if len_last_pair1 > k+12: #if solenoid 2 has a char
-                combo1.append(pair1[pair1_lines*24+k+12][j]) #adds solenoid 2
-                combo2.append(pair1[pair1_lines*24+k+12][j+1]) #adds solenoid 2
-            else:
-                combo1.append(0) #adds solenoid 2
-                combo2.append(0) #adds solenoid 2
-            if pair2_lines == pair1_lines: #if second pair might have chars
-                if len_last_pair2 > k: #if solenoid 3 has a char
-                    combo1 = [pair2[pair2_lines*24+k][j]] #adds solenoid 3
-                    combo2 = [pair2[pair2_lines*24+k][j+1]] #adds solenoid 3
-                    if len_last_pair2 > k+12: #if solenoid 4 has a char
-                        combo1.append(pair2[pair2_lines*24+k+12][j]) #adds solenoid 4
-                        combo2.append(pair2[pair2_lines*24+k+12][j+1]) #adds solenoid 4
-                    else:
-                        combo1.append(0) #adds solenoid 4
-                        combo2.append(0) #adds solenoid 4
-                else:
-                    combo1.append(0) #adds solenoid 3
-                    combo2.append(0) #adds solenoid 3
-                    combo1.append(0) #adds solenoid 4
-                    combo2.append(0) #adds solenoid 4
-            instructions.append(combo1)
-            instructions.append(combo2)
-    #print(pair2)
-    #print(f'example instructions for 1 pair: {instructions}')
-    return instructions
 
-example = [[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,0],[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,1],
+    section_width = 2*char_diff #how many characters two solenoids emboss in a section
+    sections_per_line = math.ceil(char_per_line/section_width) #number of separate sections the two solenoids emboss
+
+    total_char = len(inp)
+    total_lines = math.ceil(total_char/char_per_line)
+
+    section_length = 2*line_diff
+    sections_per_page = math.ceil(total_lines/section_length)
+
+    sol1dir = []
+    sol2dir = []
+    sol3dir = []
+    sol4dir = []
+
+    #TODO if statement for last chars
+    for row_section in range(sections_per_page):
+        for line in range(line_diff):
+            sol1_row1 = [] #dots 1 and 4 of the characters in the line
+            sol1_row2 = [] #dots 2 and 5 of the characters in the line
+            sol1_row3 = [] #dots 3 and 6 of the characters in the line
+            sol2_row1 = [] 
+            sol2_row2 = [] 
+            sol2_row3 = [] 
+            sol3_row1 = [] 
+            sol3_row2 = [] 
+            sol3_row3 = [] 
+            sol4_row1 = [] 
+            sol4_row2 = [] 
+            sol4_row3 = [] 
+            for col_section in range(sections_per_line):
+                for character in range(char_diff):
+                    row = row_section * section_length + line
+                    col = col_section * section_width + character
+                    for combo in range(2): #if row 1, dots 1 then 4 and so on
+                        #solenoid 1
+                        sol1_row1.append(inp[row*24+col][0+3*combo])
+                        sol1_row2.append(inp[row*24+col][1+3*combo])
+                        sol1_row3.append(inp[row*24+col][2+3*combo])
+                        #solenoid 2
+                        sol2_row1.append(inp[row*24+col+char_diff][0+3*combo])
+                        sol2_row2.append(inp[row*24+col+char_diff][1+3*combo])
+                        sol2_row3.append(inp[row*24+col+char_diff][2+3*combo])
+                        #solenoid 3
+                        sol3_row1.append(inp[(row+line_diff)*24+col][0+3*combo])
+                        sol3_row2.append(inp[(row+line_diff)*24+col][1+3*combo])
+                        sol3_row3.append(inp[(row+line_diff)*24+col][2+3*combo])
+                        #solenoid 4
+                        sol4_row1.append(inp[(row+line_diff)*24+col+char_diff][0+3*combo])
+                        sol4_row2.append(inp[(row+line_diff)*24+col+char_diff][1+3*combo])
+                        sol4_row3.append(inp[(row+line_diff)*24+col+char_diff][2+3*combo])
+        sol1dir.append(sol1_row1)
+        sol1dir.append(sol1_row2)
+        sol1dir.append(sol1_row3)
+        sol2dir.append(sol2_row1)
+        sol2dir.append(sol2_row2)
+        sol2dir.append(sol2_row3)
+        sol3dir.append(sol3_row1)
+        sol3dir.append(sol3_row2)
+        sol3dir.append(sol3_row3)
+        sol4dir.append(sol4_row1)
+        sol4dir.append(sol4_row2)
+        sol4dir.append(sol4_row3)
+
+    #print(f'example instructions for 1 pair: {instructions}')
+    return [sol1dir,sol2dir,sol3dir,sol4dir]
+
+example0 = [[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,0],[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,1],
            [1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,0],[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,1],
            [1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,0],[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,1],
            [1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,0],[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,1],
@@ -217,5 +219,5 @@ example = [[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1]
            [1,0,0,1,1,1],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,0],[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,1],
            [1,1,1,0,0,1]]
 #print(f'example braille:{example}\n\n')
-solenoid_combos(example)
+solenoid_combos(example0)
     
