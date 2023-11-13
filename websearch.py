@@ -19,6 +19,7 @@ def find_product(search_input):
     recipe_count = {}
     words = search_input.split(" ")
     for word in words:
+        word = word.lower()
         if not (word.lower() in ["and", "the", "or", "of", "by", "directions", "for", "me"]):
            if word in d.keys():
               recipes = d[word]
