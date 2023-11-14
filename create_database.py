@@ -12,7 +12,7 @@ r = requests.get(URL)
 og_soup = BeautifulSoup(r.content, 'html5lib')
 og_title = og_soup.find("title")
 
-start_index = 118746 #goes up to 264847
+start_index = 80000 #goes up to 264847
 more_products = True
 index = start_index
 
@@ -31,7 +31,7 @@ while True: #currently about 3.1 pages/sec (264847 total so one whole day uh)
             if sib.name=="a":
                 break
             sib_clean = sib.text.replace('\n','').replace('\t','*').replace(' ', '')
-            cond = sib_clean.replace("*", "").strip()
+            cond = sib_clean.replace("*", "")
             if tags.text == "Nutrition Facts" and cond != '':
                 sib_clean = re.sub(r'[*]{1,44}', ':', sib_clean).replace("::","\n")
                 res = str(re.sub('\t', '', sib_clean))
@@ -47,10 +47,13 @@ while True: #currently about 3.1 pages/sec (264847 total so one whole day uh)
                 directions += tags.text + "\n" + res.strip("\n").strip("\t").strip("\n") + "\n\n"
             
     index += 1
+    if (index == 103375):
+        index += 1
     print(index)
 
     for word in title.split(" "):
-        if not (word.lower() in ["and", "the", "or", "of", "by", "directions", "for", "me"]):
+        word = word.lower()
+        if not (word in ["and", "the", "or", "of", "by", "directions", "for", "me"]):
             if word not in keyword_dict.keys():
                 keyword_dict[word] = directions
             else:
