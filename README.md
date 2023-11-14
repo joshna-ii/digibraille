@@ -1,5 +1,12 @@
 # digibraille
 
+
+$ chmod +x rpi_arduino.py 
+$ ./rpi_arduino.py 
+
+
+
+
 How to Use Right Now:
 - pip install -r requirements.txt
 - python3 webapp.py

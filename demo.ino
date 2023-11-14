@@ -228,8 +228,10 @@ void test(){
 // the loop function runs over and over again forever
 void loop() {
   if (Serial.available()){
-    command = Serial.readStringUntil('\n');
-    command.trim();
+    command = Serial.read() - '0'; //this should be the combo that the rpi sends over
+    Serial.println(command);
+    //command = Serial.readStringUntil('\n');
+    //command.trim();
     if (command.equals("s1_on")){
       digitalWrite(s1, HIGH);  
       delay(d);
