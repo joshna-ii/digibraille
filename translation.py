@@ -131,6 +131,7 @@ def contracted_translation(inp):
 
 #translate arrays of 6 to arrys of 4 based on solenoid locations
 def solenoid_combos(inp):
+    return []
     line_diff = 4 #number of lines in between pairs of solenoids
     char_diff = 4 #number of characters between solenoids
     char_per_line = 24 #number of embossed characters per line
