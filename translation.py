@@ -40,7 +40,7 @@ def uncontracted_translation(s):
                 trans.append(pre_num)
                 trans.append(num_dict[c])
                 num = True
-        elif c.isupper():
+        elif c.isupper() and c in abcx_dict:
             if num:
                 trans.append(after_num)
             num = False
@@ -62,6 +62,8 @@ def uncontracted_translation(s):
             cap = False
             for e in special_dict[c]:
                 trans.append(e)
+        else:
+            print(f'problem with {c}')
     return trans
 
 
@@ -131,7 +133,6 @@ def contracted_translation(inp):
 def solenoid_combos(inp):
     line_diff = 4 #number of lines in between pairs of solenoids
     char_diff = 4 #number of characters between solenoids
-    line_per_page = 32 #number of lines in the whole page
     char_per_line = 24 #number of embossed characters per line
 
     section_width = 2*char_diff #how many characters two solenoids emboss in a section
@@ -151,6 +152,9 @@ def solenoid_combos(inp):
     #TODO if statement for last chars
     for row_section in range(sections_per_page):
         for line in range(line_diff):
+            if row_section == sections_per_page -1:
+                if line == total_lines%line_diff:
+                    break
             sol1_row1 = [] #dots 1 and 4 of the characters in the line
             sol1_row2 = [] #dots 2 and 5 of the characters in the line
             sol1_row3 = [] #dots 3 and 6 of the characters in the line
@@ -167,57 +171,68 @@ def solenoid_combos(inp):
                 for character in range(char_diff):
                     row = row_section * section_length + line
                     col = col_section * section_width + character
+                    sol1x = row*24+col
+                    if sol1x >= total_char:
+                        break
                     for combo in range(2): #if row 1, dots 1 then 4 and so on
                         #solenoid 1
-                        sol1_row1.append(inp[row*24+col][0+3*combo])
-                        sol1_row2.append(inp[row*24+col][1+3*combo])
-                        sol1_row3.append(inp[row*24+col][2+3*combo])
-                        #solenoid 2
-                        sol2_row1.append(inp[row*24+col+char_diff][0+3*combo])
-                        sol2_row2.append(inp[row*24+col+char_diff][1+3*combo])
-                        sol2_row3.append(inp[row*24+col+char_diff][2+3*combo])
-                        #solenoid 3
-                        sol3_row1.append(inp[(row+line_diff)*24+col][0+3*combo])
-                        sol3_row2.append(inp[(row+line_diff)*24+col][1+3*combo])
-                        sol3_row3.append(inp[(row+line_diff)*24+col][2+3*combo])
-                        #solenoid 4
-                        sol4_row1.append(inp[(row+line_diff)*24+col+char_diff][0+3*combo])
-                        sol4_row2.append(inp[(row+line_diff)*24+col+char_diff][1+3*combo])
-                        sol4_row3.append(inp[(row+line_diff)*24+col+char_diff][2+3*combo])
-        sol1dir.append(sol1_row1)
-        sol1dir.append(sol1_row2)
-        sol1dir.append(sol1_row3)
-        sol2dir.append(sol2_row1)
-        sol2dir.append(sol2_row2)
-        sol2dir.append(sol2_row3)
-        sol3dir.append(sol3_row1)
-        sol3dir.append(sol3_row2)
-        sol3dir.append(sol3_row3)
-        sol4dir.append(sol4_row1)
-        sol4dir.append(sol4_row2)
-        sol4dir.append(sol4_row3)
+                        sol1_row1.append(inp[sol1x][0+3*combo])
+                        sol1_row2.append(inp[sol1x][1+3*combo])
+                        sol1_row3.append(inp[sol1x][2+3*combo])
 
-    #print(f'example instructions for 1 pair: {instructions}')
+                        #solenoid 2
+                        sol2x = sol1x+char_diff
+                        if sol2x < total_char:
+                            sol2_row1.append(inp[sol1x+char_diff][0+3*combo])
+                            sol2_row2.append(inp[sol1x+char_diff][1+3*combo])
+                            sol2_row3.append(inp[sol1x+char_diff][2+3*combo])
+                        else:
+                            sol2_row1.append(0)
+                            sol2_row2.append(0)
+                            sol2_row3.append(0)
+
+                        #solenoid 3
+                        sol3x = (row+line_diff)*24+col
+                        if sol3x < total_char:
+                            sol3_row1.append(inp[sol3x][0+3*combo])
+                            sol3_row2.append(inp[sol3x][1+3*combo])
+                            sol3_row3.append(inp[sol3x][2+3*combo])
+                        else:
+                            sol3_row1.append(0)
+                            sol3_row2.append(0)
+                            sol3_row3.append(0)
+
+                        #solenoid 4
+                        sol4x = sol3x+char_diff
+                        if sol4x < total_char:
+                            sol4_row1.append(inp[sol4x][0+3*combo])
+                            sol4_row2.append(inp[sol4x][1+3*combo])
+                            sol4_row3.append(inp[sol4x][2+3*combo])
+                        else:
+                            sol4_row1.append(0)
+                            sol4_row2.append(0)
+                            sol4_row3.append(0)
+        sol1dir += sol1_row1 + sol1_row2 + sol1_row3
+        sol2dir += sol2_row1 + sol2_row2 + sol2_row3
+        sol3dir += sol3_row1 + sol3_row2 + sol3_row3
+        sol4dir += sol4_row1 + sol4_row2 + sol4_row3
+
+    instructions = [sol1dir,sol2dir,sol3dir,sol4dir]
+    print(f'example instructions for 1 pair: {instructions}')
     return [sol1dir,sol2dir,sol3dir,sol4dir]
 
-example0 = [[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,0],[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,1],
-           [1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,0],[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,1],
-           [1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,0],[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,1],
-           [1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,0],[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,1],
-           [1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,0],[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,1],
-           [1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,0],[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,1],
-           [1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,0],[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,1],
-           [1,0,0,1,1,1],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,0],[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,1],
-           [1,0,0,1,1,1],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,0],[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,1],
-           [1,0,0,1,1,1],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,0],[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,1],
-           [1,0,0,1,1,1],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,0],[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,1],
-           [1,0,0,1,1,1],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,0],[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,1],
-           [1,0,0,1,1,1],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,0],[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,1],
-           [1,0,0,1,1,1],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,0],[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,1],
-           [1,0,0,1,1,1],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,0],[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,1],
-           [1,0,0,1,1,1],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,0],[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,1],
-           [1,0,0,1,1,1],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,0],[1,0,1,0,1,0],[0,1,0,1,1,0],[1,0,1,0,1,1],[1,0,0,0,1,0],[1,1,1,0,0,1],[1,0,0,1,0,1],
-           [1,1,1,0,0,1]]
-#print(f'example braille:{example}\n\n')
+example0 = []
+curr = []
+for i in range(1000):
+    if i%6 == 0:
+        curr = [i]
+    else:
+        curr.append(i)
+        if i%6 == 5:
+            example0.append(curr)
+
+expect0 = "n/a"
+
+print(f'example braille:{example0}\n\nexpected translation:{expect0}\n\n')
 solenoid_combos(example0)
     
