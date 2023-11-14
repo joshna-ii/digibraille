@@ -23,8 +23,6 @@ void setup() {
   digitalWrite(s4, LOW);  
 
   delay(2000);
-  
-  Serial.println("Test");
 }
 
 void comb0(){
@@ -47,6 +45,7 @@ void comb2(){
   
 }
 void comb3(){
+    Serial.println("so bro");
     digitalWrite(s3, HIGH); 
     digitalWrite(s4, HIGH); 
     delay(d);
@@ -185,6 +184,7 @@ void comb15(){
 }
 
 void combinations(String s){
+   Serial.println("and now");
    //solenoid combinations
    if (s.equals("1")){ comb1();}
    if (s.equals("2")){ comb2();}
@@ -203,13 +203,13 @@ void combinations(String s){
 void test(){
    //solenoid combinations
    int pos = 0;
+   Serial.println("here");
 
    while (pos != -1){
     int nextPos = command.indexOf(' ', pos);
     if (nextPos == -1){
-    //   Serial.println(command.substring(pos, nextPos));
+       //Serial.println(command.substring(pos, nextPos));
        String s = command.substring(pos, nextPos); 
-       Serial.println(s);
        pos = nextPos; 
        combinations(s); 
     }
@@ -217,7 +217,7 @@ void test(){
       String s = command.substring(pos, nextPos);
    //   Serial.println(command.substring(pos, nextPos));
      // Serial.println(nextPos);
-      Serial.println(s);
+      //Serial.println(s);
       pos = nextPos + 1; // Move the position to the character after the space
       combinations(s); 
     }
@@ -228,8 +228,10 @@ void test(){
 // the loop function runs over and over again forever
 void loop() {
   if (Serial.available()){
-    command = Serial.readStringUntil('\n');
-    command.trim();
+    command = Serial.readStringUntil('\n'); //this should be the combo that the rpi sends over
+    Serial.println(command);
+    //command = Serial.readStringUntil('\n');
+    //command.trim();
     if (command.equals("s1_on")){
       digitalWrite(s1, HIGH);  
       delay(d);
@@ -272,11 +274,6 @@ void loop() {
     
     test(); 
     //combinations(); 
-
-      
-    
-    Serial.print("Command: ");
-    Serial.println(command);
   }
   
 
