@@ -12,7 +12,7 @@ r = requests.get(URL)
 og_soup = BeautifulSoup(r.content, 'html5lib')
 og_title = og_soup.find("title")
 
-index = 263000 #goes up to 264847
+index = 1 #goes up to 264847
 more_products = True
 
 while True: #currently about 3.1 pages/sec (264847 total so one whole day uh)
