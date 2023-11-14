@@ -6,3 +6,4 @@ pandas
 lxml
 re
 csv
+serial

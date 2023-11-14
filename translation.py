@@ -63,7 +63,7 @@ def uncontracted_translation(s):
             for e in special_dict[c]:
                 trans.append(e)
         else:
-            print(f'problem with {c}')
+            print(f'problem with {c}') #TODO
     return trans
 
 
@@ -131,7 +131,6 @@ def contracted_translation(inp):
 
 #translate arrays of 6 to arrys of 4 based on solenoid locations
 def solenoid_combos(inp):
-    return []
     line_diff = 4 #number of lines in between pairs of solenoids
     char_diff = 4 #number of characters between solenoids
     char_per_line = 24 #number of embossed characters per line
@@ -150,7 +149,6 @@ def solenoid_combos(inp):
     sol3dir = []
     sol4dir = []
 
-    #TODO if statement for last chars
     for row_section in range(sections_per_page):
         for line in range(line_diff):
             if row_section == sections_per_page -1:
@@ -219,7 +217,7 @@ def solenoid_combos(inp):
         sol4dir += sol4_row1 + sol4_row2 + sol4_row3
 
     instructions = [sol1dir,sol2dir,sol3dir,sol4dir]
-    print(f'example instructions for 1 pair: {instructions}')
+    #print(f'example instructions for 1 pair: {instructions}')
     return [sol1dir,sol2dir,sol3dir,sol4dir]
 
 example0 = []
@@ -234,6 +232,6 @@ for i in range(1000):
 
 expect0 = "n/a"
 
-print(f'example braille:{example0}\n\nexpected translation:{expect0}\n\n')
+#print(f'example braille:{example0}\n\nexpected translation:{expect0}\n\n')
 solenoid_combos(example0)
     
