@@ -1,0 +1,16 @@
+page to print: hi
+
+solenoid combos: ['1', '0', '0', '1', '1', '1', '1', '0', '0', '0', '0', '0']
+
+arduino recieved: x x x
+arduino recieved: x
+arduino recieved: x x x
+arduino recieved: x
+arduino recieved: 1
+arduino sent: 1
+arduino recieved: 0 1
+arduino sent: 0
+arduino sent: 1
+arduino recieved: 1 0
+arduino sent: 1
+arduino sent: 0

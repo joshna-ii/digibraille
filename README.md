@@ -1,8 +1,8 @@
 # digibraille
 
 
-$ chmod +x rpi_arduino.py 
-$ ./rpi_arduino.py 
+$ chmod +x rpi_handler.py 
+$ ./rpi_handler.py 
 
 
 
@@ -10,15 +10,16 @@ $ ./rpi_arduino.py
 How to Use Right Now:
 - pip install -r requirements.txt
 - python3 webapp.py
-    - website is 127.0.0.1:5000 (local host)
+    - website is the ip of your laptop and will show up in terminal if you don't know it
 
 Structure of Repo:
 - frontend: webapp.py and templates using python library Flask, directly interfaces with main_backend.py
 - backend: main file is called main_backend.py and calls functions from the other files
     - websearch.py: handles googling, printing info from direct link, searching database for product directions
     - translation.py: uses dict to convert alphabet to braille characters (list of 6 0/1s) for uncontracted braille, loops through again for uncontracted braille, converts to list of location and solenoid movement to be sent
-    - rpi_handler.py: interfaces with rpi to host website and send signals for embosser
+    - rpi_handler.py: interfaces with rpi to send signal to arduino for embosser
     - create_database.py: file that webscrapes directionsforme and other websites and outputs info into database in database_output.txt using beautifulsoup
+    - databasexxxxx.csv: 
 - temporary files:
     - temp_code.py: temporary python code file for testing
     - temp_output.py: print temporary test outputs here
