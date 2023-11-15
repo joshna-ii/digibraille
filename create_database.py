@@ -12,7 +12,7 @@ r = requests.get(URL)
 og_soup = BeautifulSoup(r.content, 'html5lib')
 og_title = og_soup.find("title")
 
-start_index = 80000 #goes up to 264847
+start_index = 168772 #goes up to 264847
 more_products = True
 index = start_index
 
