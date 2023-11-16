@@ -22,6 +22,3 @@ def send_solenoids(combo_list):
                 if line[8:12].decode('utf-8') == "sent":
                     count += 1
                 time.sleep(1)
-
-
-#send_solenoids([str(8), str(2), str(3), str(5), str(8), str(0), str(9), str(11), str(15)])

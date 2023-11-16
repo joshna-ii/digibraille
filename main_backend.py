@@ -15,7 +15,7 @@ def print_translations(inp, uncontracted, contracted, sol_dirs, sol_combos):
 
 #gets information from frontend then decides what to print
 #calls embossing functions
-def run_backend(input_type, inp):
+def run_backend(input_type, inp, db_for_search):
     if input_type == "notes":
         uncontracted = uncontracted_translation(inp)
         contracted = contracted_translation(inp)
@@ -29,7 +29,7 @@ def run_backend(input_type, inp):
         if "https://" in inp:
             resp = print_link(inp)
         if resp == "" or resp == "error":
-            return find_product(inp)
+            return find_product(inp, db_for_search)
         else:
             return [{"testlink": str(resp)[:400]}, 1]
     elif input_type == "translation":
@@ -39,6 +39,3 @@ def run_backend(input_type, inp):
         sol_combos = solenoid_combos(sol_dirs)
         send_solenoids(sol_combos)
         print_translations(inp, uncontracted, contracted, sol_dirs, sol_combos)
-
-
-#run_backend("translation", "hello")

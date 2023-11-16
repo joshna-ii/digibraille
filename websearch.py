@@ -4,15 +4,7 @@ import csv
 from collections import OrderedDict
 
 
-def find_product(search_input):
-    db_name = "database263000.csv"
-    #convert database in csv to dict TODO move to webapp.py for efficiency
-    d = {}
-    with open(db_name, 'r') as db:
-       rdr = csv.reader(db)
-       next(rdr)
-       for row in rdr:
-          d[row[0]] = row[1:]
+def find_product(search_input, db):
 
     to_print = ""
 
@@ -20,8 +12,8 @@ def find_product(search_input):
     words = search_input.split(" ")
     for word in words:
         if not (word.lower() in ["and", "the", "or", "of", "by", "directions", "for", "me"]):
-           if word in d.keys():
-              recipes = d[word]
+           if word in db.keys():
+              recipes = db[word]
 
               for recipe in recipes:
                 to_print += recipe
@@ -30,16 +22,20 @@ def find_product(search_input):
                 else:
                     recipe_count[recipe] = 1
 
-    #if recipe_count == {}: TODO
-    #   return google(search_input)
-                 
-    sorted_list = sorted(recipe_count, reverse=True)
-    count = min(10,len(sorted_list))
-
-    resd = OrderedDict()
-    for elem in sorted_list:
-       title = bytes(elem, 'utf-8').split(b'\n')[0].decode("utf-8")
-       resd[title] = elem
+    if recipe_count == {}:
+      resd = OrderedDict()
+      website = str(google(search_input))
+      resd[f"Google Search for {search_input.upper()}"] = website
+      if website == "error":
+         return [OrderedDict(), 0]
+      return [resd, 1]
+    else:          
+      sorted_list = sorted(recipe_count, reverse=True)
+      count = min(10,len(sorted_list))
+      resd = OrderedDict()
+      for elem in sorted_list:
+         title = bytes(elem, 'utf-8').split(b'\n')[0].decode("utf-8")
+         resd[title] = elem
 
     return [resd, count]
 
@@ -50,7 +46,7 @@ def print_link(search_input):
    resp=requests.get(url)
    #http_response 200 means OK status
    if resp.status_code==200: #if link
-      return resp.content #TODO take only important parts
+      return resp.content
    else:
       return "error"
 

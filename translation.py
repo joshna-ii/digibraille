@@ -40,7 +40,7 @@ def uncontracted_translation(s):
                 trans.append(pre_num)
                 trans.append(num_dict[c])
                 num = True
-        elif c.isupper() and c in abcx_dict:
+        elif c.isupper() and c.lower() in abcx_dict:
             if num:
                 trans.append(after_num)
             num = False
@@ -63,7 +63,7 @@ def uncontracted_translation(s):
             for e in special_dict[c]:
                 trans.append(e)
         else:
-            print(f'problem with {c}') #TODO
+            print(f'problem with {c}')
     return trans
 
 
@@ -231,8 +231,6 @@ for i in range(10):
 
 expect0 = "n/a"
 
-#print(f'example braille:{example0}\n\nexpected translation:{expect0}\n\n')
-
     
 
 def solenoid_combos(solenoidDirs):
@@ -245,8 +243,4 @@ def solenoid_combos(solenoidDirs):
     for i in range(length):
         binary_combo = str(sol3dirs[i]) + str(sol2dirs[i]) + str(sol1dirs[i]) + str(sol0dirs[i])
         sol_combos.append(str(int(binary_combo,2)))
-    #print(sol_combos)
     return(sol_combos)
-
-
-#solenoid_combos([[1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0], [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
