@@ -1,5 +1,12 @@
 # digibraille
 
+
+$ chmod +x rpi_arduino.py 
+$ ./rpi_arduino.py 
+
+
+
+
 How to Use Right Now:
 - pip install -r requirements.txt
 - python3 webapp.py or sudo python3 webapp.py on raspberry pi
@@ -10,7 +17,7 @@ Structure of Repo:
 - backend: main file is called main_backend.py and calls functions from the other files
     - websearch.py: handles googling, printing info from direct link, searching database for product directions
     - translation.py: uses dict to convert alphabet to braille characters (list of 6 0/1s) for uncontracted braille, loops through again for uncontracted braille, converts to list of location and solenoid movement to be sent
-    - rpi_handler.py: interfaces with rpi to host website and send signals for embosser
+    - rpi_handler.py: interfaces with rpi to send signal to arduino for embosser
     - create_database.py: file that webscrapes directionsforme and other websites and outputs info into database in database_output.txt using beautifulsoup
     - databasexxxx.csv: 
     - demo.ino: arduino file that is run on the arduino and interacts with rpi_handler.py over serial

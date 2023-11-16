@@ -130,7 +130,7 @@ def contracted_translation(inp):
     return uncontracted_translation(res)
 
 #translate arrays of 6 to arrys of 4 based on solenoid locations
-def solenoid_combos(inp):
+def solenoid_dirs(inp):
     line_diff = 4 #number of lines in between pairs of solenoids
     char_diff = 4 #number of characters between solenoids
     char_per_line = 24 #number of embossed characters per line
@@ -144,54 +144,65 @@ def solenoid_combos(inp):
     section_length = 2*line_diff
     sections_per_page = math.ceil(total_lines/section_length)
 
+    sol0dir = []
     sol1dir = []
     sol2dir = []
     sol3dir = []
-    sol4dir = []
 
     for row_section in range(sections_per_page):
         for line in range(line_diff):
             if row_section == sections_per_page -1:
                 if line == total_lines%line_diff:
                     break
-            sol1_row1 = [] #dots 1 and 4 of the characters in the line
-            sol1_row2 = [] #dots 2 and 5 of the characters in the line
-            sol1_row3 = [] #dots 3 and 6 of the characters in the line
+            sol0_row1 = [] #dots 1 and 4 of the characters in the line
+            sol0_row2 = [] #dots 2 and 5 of the characters in the line
+            sol0_row3 = [] #dots 3 and 6 of the characters in the line
+            sol1_row1 = [] 
+            sol1_row2 = [] 
+            sol1_row3 = [] 
             sol2_row1 = [] 
             sol2_row2 = [] 
             sol2_row3 = [] 
             sol3_row1 = [] 
             sol3_row2 = [] 
             sol3_row3 = [] 
-            sol4_row1 = [] 
-            sol4_row2 = [] 
-            sol4_row3 = [] 
             for col_section in range(sections_per_line):
                 for character in range(char_diff):
                     row = row_section * section_length + line
                     col = col_section * section_width + character
-                    sol1x = row*24+col
-                    if sol1x >= total_char:
+                    sol0x = row*24+col
+                    if sol0x >= total_char:
                         break
                     for combo in range(2): #if row 1, dots 1 then 4 and so on
                         #solenoid 1
-                        sol1_row1.append(inp[sol1x][0+3*combo])
-                        sol1_row2.append(inp[sol1x][1+3*combo])
-                        sol1_row3.append(inp[sol1x][2+3*combo])
+                        sol0_row1.append(inp[sol0x][0+3*combo])
+                        sol0_row2.append(inp[sol0x][1+3*combo])
+                        sol0_row3.append(inp[sol0x][2+3*combo])
 
                         #solenoid 2
-                        sol2x = sol1x+char_diff
+                        sol1x = sol0x+char_diff
+                        if sol1x < total_char:
+                            sol1_row1.append(inp[sol0x+char_diff][0+3*combo])
+                            sol1_row2.append(inp[sol0x+char_diff][1+3*combo])
+                            sol1_row3.append(inp[sol0x+char_diff][2+3*combo])
+                        else:
+                            sol1_row1.append(0)
+                            sol1_row2.append(0)
+                            sol1_row3.append(0)
+
+                        #solenoid 3
+                        sol2x = (row+line_diff)*24+col
                         if sol2x < total_char:
-                            sol2_row1.append(inp[sol1x+char_diff][0+3*combo])
-                            sol2_row2.append(inp[sol1x+char_diff][1+3*combo])
-                            sol2_row3.append(inp[sol1x+char_diff][2+3*combo])
+                            sol2_row1.append(inp[sol2x][0+3*combo])
+                            sol2_row2.append(inp[sol2x][1+3*combo])
+                            sol2_row3.append(inp[sol2x][2+3*combo])
                         else:
                             sol2_row1.append(0)
                             sol2_row2.append(0)
                             sol2_row3.append(0)
 
-                        #solenoid 3
-                        sol3x = (row+line_diff)*24+col
+                        #solenoid 4
+                        sol3x = sol2x+char_diff
                         if sol3x < total_char:
                             sol3_row1.append(inp[sol3x][0+3*combo])
                             sol3_row2.append(inp[sol3x][1+3*combo])
@@ -200,29 +211,17 @@ def solenoid_combos(inp):
                             sol3_row1.append(0)
                             sol3_row2.append(0)
                             sol3_row3.append(0)
-
-                        #solenoid 4
-                        sol4x = sol3x+char_diff
-                        if sol4x < total_char:
-                            sol4_row1.append(inp[sol4x][0+3*combo])
-                            sol4_row2.append(inp[sol4x][1+3*combo])
-                            sol4_row3.append(inp[sol4x][2+3*combo])
-                        else:
-                            sol4_row1.append(0)
-                            sol4_row2.append(0)
-                            sol4_row3.append(0)
+        sol0dir += sol0_row1 + sol0_row2 + sol0_row3
         sol1dir += sol1_row1 + sol1_row2 + sol1_row3
         sol2dir += sol2_row1 + sol2_row2 + sol2_row3
         sol3dir += sol3_row1 + sol3_row2 + sol3_row3
-        sol4dir += sol4_row1 + sol4_row2 + sol4_row3
 
-    instructions = [sol1dir,sol2dir,sol3dir,sol4dir]
-    #print(f'example instructions for 1 pair: {instructions}')
-    return [sol1dir,sol2dir,sol3dir,sol4dir]
+    instructions = [sol0dir,sol1dir,sol2dir,sol3dir]
+    return [sol0dir,sol1dir,sol2dir,sol3dir]
 
 example0 = []
 curr = []
-for i in range(1000):
+for i in range(10):
     if i%6 == 0:
         curr = [i]
     else:
@@ -233,5 +232,21 @@ for i in range(1000):
 expect0 = "n/a"
 
 #print(f'example braille:{example0}\n\nexpected translation:{expect0}\n\n')
-solenoid_combos(example0)
+
     
+
+def solenoid_combos(solenoidDirs):
+    sol0dirs = solenoidDirs[0] #top left sol
+    sol1dirs = solenoidDirs[1] #top right sol
+    sol2dirs = solenoidDirs[2] #bottom left sol
+    sol3dirs = solenoidDirs[3] #bottom right sol
+    length = len(sol0dirs) #all should be the same length
+    sol_combos = []
+    for i in range(length):
+        binary_combo = str(sol3dirs[i]) + str(sol2dirs[i]) + str(sol1dirs[i]) + str(sol0dirs[i])
+        sol_combos.append(str(int(binary_combo,2)))
+    #print(sol_combos)
+    return(sol_combos)
+
+
+#solenoid_combos([[1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0], [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]])
