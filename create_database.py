@@ -12,7 +12,7 @@ r = requests.get(URL)
 og_soup = BeautifulSoup(r.content, 'html5lib')
 og_title = og_soup.find("title")
 
-start_index = 168772 #goes up to 264847
+start_index = 1 #goes up to 264847
 more_products = True
 index = start_index
 
@@ -47,8 +47,6 @@ while True: #currently about 3.1 pages/sec (264847 total so one whole day uh)
                 directions += tags.text + "\n" + res.strip("\n").strip("\t").strip("\n") + "\n\n"
             
     index += 1
-    if (index == 103375):
-        index += 1
     print(index)
 
     for word in title.split(" "):
