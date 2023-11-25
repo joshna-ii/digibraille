@@ -239,8 +239,8 @@ def solenoid_combos(solenoidDirs):
     sol2dirs = solenoidDirs[2] #bottom left sol
     sol3dirs = solenoidDirs[3] #bottom right sol
     length = len(sol0dirs) #all should be the same length
-    sol_combos = []
+    sol_combos = ""
     for i in range(length):
         binary_combo = str(sol3dirs[i]) + str(sol2dirs[i]) + str(sol1dirs[i]) + str(sol0dirs[i])
-        sol_combos.append(str(int(binary_combo,2)))
+        sol_combos += (str(int(binary_combo,2))) + " "
     return(sol_combos)
