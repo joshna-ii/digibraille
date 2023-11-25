@@ -3,7 +3,7 @@ String command;
 int s1 = 10; 
 int s2 = 11; 
 int s3 = 12; 
-int s4 = 13; 
+int s4 = 9; 
 
 const int numPins = 4;
 int pins[numPins] = {s1, s2, s3, s4};
@@ -214,7 +214,7 @@ void test(){
        pos = nextPos; 
        combinations(s); 
     }
-    if (nextPos != -1){
+    else if (nextPos != -1){
        String s = command.substring(pos, nextPos);
        pos = nextPos + 1; // Move the position to the character after the space
        combinations(s); 
@@ -229,49 +229,6 @@ void loop() {
     Serial.print("arduino recieved: ");
     Serial.println(command);
     command.trim();
-    if (command.equals("s1_on")){
-      digitalWrite(s1, HIGH);  
-      delay(d);
-      digitalWrite(s1, LOW);  
-      delay(d);
-    }
-    if (command.equals("s1_off")){
-      digitalWrite(s1, LOW);  
-    }
-
-    if (command.equals("s2_on")){
-      digitalWrite(s2, HIGH); 
-      delay(d);
-      digitalWrite(s2, LOW);   
-      delay(d);
-    }
-    if (command.equals("s2_off")){
-      digitalWrite(s2, LOW);  
-    }
-    
-    if (command.equals("s3_on")){
-      digitalWrite(s3, HIGH); 
-      delay(d);
-      digitalWrite(s3, LOW);  
-      delay(d); 
-    }
-    if (command.equals("s3_off")){
-      digitalWrite(s3, LOW);  
-    }
-    
-    if (command.equals("s4_on")){
-      digitalWrite(s4, HIGH); 
-      delay(d);
-      digitalWrite(s4, LOW);  
-      delay(d); 
-    }
-    if (command.equals("s4_off")){
-      digitalWrite(s4, LOW);  
-    }
-    
     test(); 
-    //combinations(); 
   }
-  
-
 }
