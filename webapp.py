@@ -13,7 +13,7 @@ import csv
 app = Flask(__name__)  
 app.secret_key = 'your_secret_key'
  
-database_or_query = "db" #say either "query" or "db"
+database_or_query = "query" #say either "query" or "db"
 db_name = "database263000.csv" #specify csv file with database
 
 #create database
@@ -130,8 +130,7 @@ def searchproduct(page=0):
 
          for key in results:
             if ( c >= start_index and c < end_index):
-               new_key = "Recipe " + str(c) + " " + key
-               options_to_display[new_key] = results[key]
+               options_to_display[key] = results[key]
             c += 1 
 
          print(options_to_display)
@@ -150,8 +149,7 @@ def searchproduct(page=0):
 
       for key in results:
          if ( c >= start_index and c < end_index):
-            new_key = "Recipe " + str(c) + " " + key
-            options_to_display[new_key] = results[key]
+            options_to_display[key] = results[key]
          c += 1 
       return render_template("searchproduct.html",order=order, results=options_to_display,num=n,search_input=search_input,search_performed=search_performed,current_page=page)
 
@@ -176,8 +174,7 @@ def nextpage(results=results):
 
          for key in results:
             if ( c >= start_index and c < end_index):
-               new_key = "Recipe " + str(c) + " " + key
-               options_to_display[new_key] = results[key]
+               options_to_display[key] = results[key]
             c += 1 
 
          search_performed = bool(results)
@@ -295,7 +292,7 @@ def results_func():
 
    button_value = request.form.get('button')
    if (button_value != None):
-      product_info = results[button_value[9:]]
+      product_info = results[button_value]
       product_info = parse_input(product_info)
    else:
       product_info = ""

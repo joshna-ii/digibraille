@@ -63,7 +63,8 @@ def uncontracted_translation(s):
             for e in special_dict[c]:
                 trans.append(e)
         else:
-            print(f'problem with {c}')
+            with open("errors.txt", "w") as f:
+                f.writelines(f'problem with {c}')
     return trans
 
 
