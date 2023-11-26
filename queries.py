@@ -3,15 +3,14 @@ from bs4 import BeautifulSoup
 from collections import OrderedDict
 from websearch import google
 import re
+from datetime import datetime
 
 
 def webscrape(URL):
+    print(URL)
     directions = ""
     r = requests.get(URL)
     current_soup = BeautifulSoup(r.content, 'html5lib')
-    current_title = current_soup.find("title")
-    title = str(current_title).split("<title>")[1].split("</title>")[0]
-    directions += title + "\n\n\n"
     for tags in current_soup.find_all("h3"):
         for sib in tags.next_siblings:
             if sib.name=="a":
@@ -33,7 +32,7 @@ def webscrape(URL):
                 directions += tags.text + "\n" + res.strip("\n").strip("\t").strip("\n") + "\n\n"
     return directions
 
-
+#true grit error TODO
 
 def find_product_query(search_input):
     search_string = ""
@@ -49,7 +48,8 @@ def find_product_query(search_input):
     for link in soup_links:
         link = str(link)
         if "https:" in link:
-            links.append(link)
+            if "page=" not in link:
+                links.append(link)
     titles = []
     for tag in soup.findAll("h2"):
             titles.append(tag.text)
