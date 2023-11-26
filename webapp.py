@@ -1,12 +1,20 @@
 # importing Flask and other modules
+
+from flask import Flask, request, render_template, jsonify, session, request,redirect, url_for
+from websearch import print_link, find_product
+import copy
+#from main_backend import run_backend
 from flask import Flask, request, render_template
 import copy
 from main_backend import run_backend
+import re
+import random 
 import csv
- 
+
 # Flask constructor
 app = Flask(__name__)  
-
+app.secret_key = 'your_secret_key'
+ 
 
 #create database
 db_name = "database263000.csv"
@@ -17,15 +25,20 @@ with open(db_name, 'r') as db_file:
    for row in rdr:
       db[row[0]] = row[1:]
  
+
 # global results 
-results  = []
+results  = {}
+men_pressed = ""
 options_to_display = {}
 n = 0
 search_input = ""
 buttonPressed = False
 product_info = {}
 button_value = ""
+flag = True
 button_name = ""
+order = ["Result 0", "Result 1", "Result 2", "Result 3", "Result 5"]
+
 
 sample = """ Product Title
 
@@ -46,10 +59,24 @@ potassium: 200mg
 Ingredients
 Beef, Water, Seasonings (Spices, Encapsulated Vinegar, Garlic, Paprika, Malt Extract) """
 
+# ensure different sessions for different users using web app at the same time
+def generate_unique_identifier():
+    # Generate a unique identifier for the user
+    return str(random.randint(1, 1000000))
+
 # A decorator used to tell the application
 # which URL is associated function
-@app.route('/')
+@app.route('/', methods =["GET", "POST"])
 def gfg():
+   global n, search_input, options_to_display, results
+   if 'menu' in request.form:
+      # Clear the variable or perform any other action
+     # n = 0 
+      #search_input = ""
+      #options_to_display = {}
+      #results = []
+      test = 1
+
    return render_template("website.html")
 
 # function for typing notes feature on web app
@@ -59,20 +86,41 @@ def typenotes():
       if request.method == "POST":
          # getting input with notes in HTML form
          notes_input = request.form.get("notes")
-         run_backend("notes", notes_input, {})
+         run_backend("notes", notes_input,db)
    return render_template("typenotes.html")
+
+
+@app.route('/clear', methods=['POST'])
+def clear_variables():
+    global results,n, search_input 
+
+    # Check if the clear button is pressed
+    if 'menu' in request.form:
+        # Clear the variable or perform any other action
+        print("cleared")
+
+    # Redirect back to the index page
+    return redirect(url_for('searchproduct'))
 
 
 # function for searching product feature on webapp
 @app.route('/searchproduct', methods =["GET", "POST"])
 def searchproduct(page=0):
-   global results,n, search_input, db
-   if request.path == '/searchproduct':
-      if request.method == "POST":
+   global results,n, search_input,flag
 
+
+   user_id = session.get('user_id')
+
+    # If the user doesn't have a unique identifier, generate one and store it in the session
+
+   
+   if request.path == '/searchproduct':
+      if (request.method == "POST"):
+   
          # getting input with search in HTML form
          search_input = request.form.get("search")
-         [results,n] = run_backend("search", search_input, db)
+
+         [results,n] = run_backend("search", search_input,db)
 
          items_per_page = 5
          start_index = page*items_per_page + 0 
@@ -82,11 +130,13 @@ def searchproduct(page=0):
 
          for key in results:
             if ( c >= start_index and c < end_index):
-               options_to_display[key] = results[key]
+               new_key = "Recipe " + str(c) + " " + key
+               options_to_display[new_key] = results[key]
             c += 1 
 
+         print(options_to_display)
          search_performed = bool(results)
-         return render_template("searchproduct.html",results=options_to_display,num=n,search_input=search_input,search_performed=search_performed,current_page=page)
+         return render_template("searchproduct.html",order=order,results=options_to_display,num=n,search_input=search_input,search_performed=search_performed,current_page=page)
 
    if (results == []):
       return render_template("searchproduct.html",current_page=page)
@@ -100,22 +150,23 @@ def searchproduct(page=0):
 
       for key in results:
          if ( c >= start_index and c < end_index):
-            options_to_display[key] = results[key]
+            new_key = "Recipe " + str(c) + " " + key
+            options_to_display[new_key] = results[key]
          c += 1 
-      return render_template("searchproduct.html",results=options_to_display,num=n,search_input=search_input,search_performed=search_performed,current_page=page)
+      return render_template("searchproduct.html",order=order, results=options_to_display,num=n,search_input=search_input,search_performed=search_performed,current_page=page)
 
 
 
 # function for searching product feature on webapp
 @app.route('/nextpage', methods =["GET", "POST"])
 def nextpage(results=results):
-   global search_input, options_to_display, db
+   global search_input, options_to_display
    page = 1
    if request.path == '/nextpage':
          # getting input with search in HTML form
          if request.method == "POST":
             search_input = request.form.get("search")
-         [results,n] = run_backend("search", search_input, db)
+         [results,n] = run_backend("search", search_input,db)
 
          items_per_page = 5
          start_index = page*items_per_page + 0 
@@ -125,11 +176,12 @@ def nextpage(results=results):
 
          for key in results:
             if ( c >= start_index and c < end_index):
-               options_to_display[key] = results[key]
+               new_key = "Recipe " + str(c) + " " + key
+               options_to_display[new_key] = results[key]
             c += 1 
 
          search_performed = bool(results)
-         return render_template("nextpage.html",results=options_to_display,num=n,search_input=search_input,search_performed=search_performed,current_page=page)
+         return render_template("nextpage.html",order=order, results=options_to_display,num=n,search_input=search_input,search_performed=search_performed,current_page=page)
 
    return render_template("nextpage.html",current_page=page,search_input=search_input)
 
@@ -141,24 +193,54 @@ def parse_nutrition(lines,values):
 
    for line in lines:
       values.add(line)
-      if (line == "Nutritional Facts"):
+      if (line == "Nutrition Facts"):
          hit = 1 
       if (hit == 1 and line):
-         if (line != "Nutritional Facts"):
+         if (line != "Nutrition Facts"):
             nutrition += line + """
 """
       if (hit == 1 and line == ''):
          break
    
-   nutr_lines = nutrition.split('\n')
-   for line in nutr_lines:
-      if line:
-         new_line = line.split(":")
-         for i in range(len(new_line)):  
-            new_line[i] = new_line[i].strip()
+   rem = ['']; 
+   units = ['g', 'mg'] #keep adding if there are more units
+   nutr_lines_v1 = re.split(r'[\n,:]', nutrition)
+   nutr_lines_v2 = [item for item in nutr_lines_v1 if item not in rem]
 
-         nut_dict[new_line[0]] = new_line[1]
+   new = ""; 
+   nutr_lines = []
+   i = 0
+   while i < (len(nutr_lines_v2)-1):
+      if nutr_lines_v2[i].isnumeric() and nutr_lines_v2[i+1] in units:
+         new =  nutr_lines_v2[i] +  nutr_lines_v2[i+1]
+         nutr_lines.append(new) 
+         i += 2
+      else:
+         nutr_lines.append(nutr_lines_v2[i]) 
+         i += 1 
       
+
+   i = 0 
+
+   while i < len(nutr_lines)-1:
+      curr = nutr_lines[i].replace(" ", "")
+      val = nutr_lines[i+1][0]
+ 
+      
+    
+      if curr.isalpha() and val.isnumeric():
+         k = i+1
+         add = ""
+      
+         while (val.isnumeric() and k < len(nutr_lines)-1):
+            add += (nutr_lines[k]) + " "
+            k += 1
+            val = nutr_lines[k][0]
+
+         nut_dict[ nutr_lines[i]] = add
+         i += 1
+      i += 1
+
    return nut_dict
 
 
@@ -182,7 +264,7 @@ def parse_input(product_info):
          continue
 
       if line:  # Check if the line is not empty
-         if (line == "Nutritional Facts"):
+         if (line == "Nutrition Facts"):
             parsed[line] = parse_nutrition(lines,values) 
          if not next_line:
             title = line 
@@ -210,9 +292,10 @@ def parse_input(product_info):
 def results_func():
    global results, options_to_display, product_info, button_value, button_name      
    # name for product selected 
+
    button_value = request.form.get('button')
    if (button_value != None):
-      product_info = results[button_value]
+      product_info = results[button_value[9:]]
       product_info = parse_input(product_info)
    else:
       product_info = ""
@@ -224,26 +307,24 @@ def results_func():
    
    button_name = request.form.get('print')
 
-   return render_template("results.html",product_name=button_value,page_num=page, product_info=product_info,buttonPressed=buttonPressed)
+   return render_template("results.html",order=order, product_name=button_value,page_num=page, product_info=product_info,buttonPressed=buttonPressed)
 
 
 # this function means print has been selected so call print fucntion here 
 @app.route('/resultsprint', methods =["GET", "POST"])
 def results_print():
    global results, options_to_display, product_info, button_value, button_name      
-   run_backend("translation", (results[button_value]), {})
+   run_backend("translation", (results[button_value]),db)
 
    if (button_value in options_to_display):
       page = 2
    else:
       page = 1
 
-   return render_template("results.html",product_name=button_value,page_num=page, product_info=product_info,buttonPressed=buttonPressed)
+   return render_template("results.html",order=order, product_name=button_value,page_num=page, product_info=product_info,buttonPressed=buttonPressed)
 
 
 if __name__=='__main__':
    app.run(host='0.0.0.0', port=80, debug=True)
-
-
 
 
