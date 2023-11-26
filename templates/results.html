@@ -85,8 +85,13 @@
                     </p>
 
                 {% else %}
-                    <p>    <strong>{{key}}</strong><br>
-                        {{product_info[key]}}  </p>    
+                    {% if redirect == 1 %}
+                        <p>    <strong>{{key}}</strong><br>
+                            <a href={{product_info[key]}}>{{product_info[key]}}</a>.</p>
+                    {% else %}
+                        <p>    <strong>{{key}}</strong><br>
+                            {{product_info[key]}}  </p>    
+                    {% endif %}
                 {% endif %}
                 
             {% endfor %}
@@ -112,19 +117,19 @@
             </a>
         {% endif %}
 
-    
-        <form method = "post" action = "\resultsprint">
-            <input  type="submit" id="prod" name="prod" class = "search_button" value="PRINT" style="position: relative; margin-left: 220px; top:-40px;"> 
-            <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_buttons.css') }}">
-        </form>
+        
+        {% if redirect == 0 %}
+            <form method = "post" action = "\resultsprint">
+                <input  type="submit" id="prod" name="prod" class = "search_button" value="PRINT" style="position: relative; margin-left: 220px; top:-40px;"> 
+                <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_buttons.css') }}">
+            </form>
+        {% endif %}
+        
         </div>
 
         </div>
 
       
-
-
-       
      
 
 	</body>

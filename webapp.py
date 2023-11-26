@@ -133,7 +133,6 @@ def searchproduct(page=0):
                options_to_display[key] = results[key]
             c += 1 
 
-         print(options_to_display)
          search_performed = bool(results)
          return render_template("searchproduct.html",order=order,results=options_to_display,num=n,search_input=search_input,search_performed=search_performed,current_page=page)
 
@@ -188,8 +187,10 @@ def parse_nutrition(lines,values):
    nutrition = ""
    nut_dict = {}
 
+
    for line in lines:
       values.add(line)
+     
       if (line == "Nutrition Facts"):
          hit = 1 
       if (hit == 1 and line):
@@ -238,7 +239,28 @@ def parse_nutrition(lines,values):
          i += 1
       i += 1
 
-   return nut_dict
+
+   start_index = next((i for i, item in enumerate(lines) if "Nutrition Facts" in item), None)
+
+    # Find the index where "Ingredients" starts
+   end_index = next((i for i, item in enumerate(lines) if "Ingredients" in item), None)
+
+    # Extract the portion between "Nutrition Facts" and "Ingredients"
+   if start_index is not None and end_index is not None:
+      nutrition_facts_data = lines[start_index:end_index]
+      # Concatenate the list into a single string
+      nutrition_facts_string = '\n'.join(map(str, nutrition_facts_data))
+   
+   pattern = re.compile(r'(\w+(?:\s\w+)*):\s?([\d.]+(?:\s?[a-zA-Z%]+)?)')
+
+   # Find all matches in the text
+   matches = re.findall(pattern, nutrition_facts_string)
+
+   # Create a dictionary from the matches
+   nutrition_dict = {key.strip(): value.strip() for key, value in matches}
+
+
+   return nutrition_dict
 
 
 def parse_input(product_info):
@@ -250,12 +272,15 @@ def parse_input(product_info):
    title = " "
    values = set()
 
+   if (product_info[0:5] == "https"):
+      parsed["Redirect To"] = product_info
+      return parsed, 1
+
 
    for i in range(len(lines)-1):
       line = lines[i]
       next_line = lines[i+1]
 
-      
       line = line.strip()  # Remove leading and trailing spaces
       if(line in values):
          continue
@@ -269,8 +294,10 @@ def parse_input(product_info):
                   parsed[title] = ""
          else:
             title = line 
-            if title not in parsed and values:
-               parsed[title] = next_line
+            if title not in (parsed or values):
+                  print(title)
+                  if title in ["Ingredients", "Warnings", "Distributor", "Description", "Directions"]: # should probably keep dynamically updating 
+                     parsed[title] = next_line
             values.add(next_line)
    
    parsed_final = copy.copy(parsed)
@@ -282,7 +309,7 @@ def parse_input(product_info):
             parsed_final.pop(key)
       i += 1
 
-   return parsed_final 
+   return parsed_final, 0 
      
          
 @app.route('/results', methods =["GET", "POST"])
@@ -293,7 +320,7 @@ def results_func():
    button_value = request.form.get('button')
    if (button_value != None):
       product_info = results[button_value]
-      product_info = parse_input(product_info)
+      product_info, r = parse_input(product_info)
    else:
       product_info = ""
 
@@ -302,9 +329,10 @@ def results_func():
    else:
       page = 1
    
+
    button_name = request.form.get('print')
 
-   return render_template("results.html",order=order, product_name=button_value,page_num=page, product_info=product_info,buttonPressed=buttonPressed)
+   return render_template("results.html",order=order, product_name=button_value,page_num=page, product_info=product_info,buttonPressed=buttonPressed, redirect=r)
 
 
 # this function means print has been selected so call print fucntion here 
