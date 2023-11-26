@@ -1,7 +1,7 @@
 from websearch import print_link, find_product_database
 from queries import find_product_query
 from translation import uncontracted_translation, contracted_translation, solenoid_dirs, solenoid_combos
-from rpi_handler import send_solenoids
+#from rpi_handler import send_solenoids
 
 
 #writes translations to file for interim demo
@@ -22,7 +22,7 @@ def run_backend(input_type, inp, db_for_search, database_or_query):
         contracted = contracted_translation(inp)
         sol_dirs = solenoid_dirs(contracted)
         sol_combos = solenoid_combos(sol_dirs)
-        send_solenoids(sol_combos)
+     #   send_solenoids(sol_combos)
         print_translations(inp, uncontracted, contracted, sol_dirs, sol_combos)
         return uncontracted_translation(inp)
     elif input_type == "search":

@@ -68,4 +68,4 @@ def google(keywords):
     soup = BeautifulSoup(content, 'html.parser')
     search = soup.find(id = 'search')
     first_link = search.find('a')
-    return print_link(first_link['href'])
+    return (first_link['href'])
