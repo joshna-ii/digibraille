@@ -7,7 +7,6 @@ from datetime import datetime
 
 
 def webscrape(URL):
-    print(URL)
     directions = ""
     r = requests.get(URL)
     current_soup = BeautifulSoup(r.content, 'html5lib')
@@ -47,12 +46,12 @@ def find_product_query(search_input):
     links = []
     for link in soup_links:
         link = str(link)
-        if "https:" in link:
-            if "page=" not in link:
-                links.append(link)
+        if "https://directionsforme.org/product/" in link:
+            links.append(link)
     titles = []
     for tag in soup.findAll("h2"):
             titles.append(tag.text)
+
     if links == []:
       resd = OrderedDict()
       website = str(google(search_input))
@@ -67,8 +66,3 @@ def find_product_query(search_input):
         title = titles[i]
         resd[title] = webscrape(links[i])
     return [resd, count]
-
-
-#x = find_product("Kraft Macaroni", "")
-#with open("temp_output.txt", "w") as f:
-#    f.writelines(f'{x}')
