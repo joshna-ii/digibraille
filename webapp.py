@@ -1,9 +1,7 @@
 # importing Flask and other modules
 
 from flask import Flask, request, render_template, jsonify, session, request,redirect, url_for
-from websearch import print_link, find_product
 import copy
-#from main_backend import run_backend
 from flask import Flask, request, render_template
 import copy
 from main_backend import run_backend
@@ -15,15 +13,17 @@ import csv
 app = Flask(__name__)  
 app.secret_key = 'your_secret_key'
  
+database_or_query = "db" #say either "query" or "db"
+db_name = "database263000.csv" #specify csv file with database
 
 #create database
-db_name = "database263000.csv"
 db = {}
-with open(db_name, 'r') as db_file:
-   rdr = csv.reader(db_file)
-   next(rdr)
-   for row in rdr:
-      db[row[0]] = row[1:]
+if database_or_query == "db":
+   with open(db_name, 'r') as db_file:
+      rdr = csv.reader(db_file)
+      next(rdr)
+      for row in rdr:
+         db[row[0]] = row[1:]
  
 
 # global results 
@@ -86,7 +86,7 @@ def typenotes():
       if request.method == "POST":
          # getting input with notes in HTML form
          notes_input = request.form.get("notes")
-         run_backend("notes", notes_input,db)
+         run_backend("notes", notes_input,"","")
    return render_template("typenotes.html")
 
 
@@ -120,7 +120,7 @@ def searchproduct(page=0):
          # getting input with search in HTML form
          search_input = request.form.get("search")
 
-         [results,n] = run_backend("search", search_input,db)
+         [results,n] = run_backend("search", search_input,db,database_or_query)
 
          items_per_page = 5
          start_index = page*items_per_page + 0 
@@ -166,7 +166,7 @@ def nextpage(results=results):
          # getting input with search in HTML form
          if request.method == "POST":
             search_input = request.form.get("search")
-         [results,n] = run_backend("search", search_input,db)
+         [results,n] = run_backend("search", search_input,db,database_or_query)
 
          items_per_page = 5
          start_index = page*items_per_page + 0 
@@ -313,8 +313,8 @@ def results_func():
 # this function means print has been selected so call print fucntion here 
 @app.route('/resultsprint', methods =["GET", "POST"])
 def results_print():
-   global results, options_to_display, product_info, button_value, button_name      
-   run_backend("translation", (results[button_value]),db)
+   global results, options_to_display, product_info, button_value, button_name   
+   run_backend("translation", (results[button_value]),"","")
 
    if (button_value in options_to_display):
       page = 2

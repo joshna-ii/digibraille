@@ -4,7 +4,7 @@ import csv
 from collections import OrderedDict
 
 
-def find_product(search_input, db):
+def find_product_database(search_input, db):
 
     to_print = ""
 
@@ -21,6 +21,9 @@ def find_product(search_input, db):
                     recipe_count[recipe] = recipe_count[recipe] + 1
                 else:
                     recipe_count[recipe] = 1
+    
+    with open("recipes.txt", "w") as f:
+        f.writelines(f'{recipe_count}')
 
     if recipe_count == {}:
       resd = OrderedDict()
