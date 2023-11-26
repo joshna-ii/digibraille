@@ -2,9 +2,15 @@
 <!--HTML FILE FOR WEBSITE HOME PAGE-->
 
 <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Your other head elements, styles, etc. -->
+    </head>
+
     <body>
         <h1> <!--heading-->
-            DIGIBRAILLE
+            DIGIBRAILLE MAIN MENU
             <link rel="stylesheet" href="{{ url_for('static', filename= 'css/title.css') }}">
         </h1>
 
@@ -25,13 +31,14 @@
         <link rel="stylesheet" href="{{ url_for('static', filename= 'css/home_buttons.css') }}">
     </div>
 
-    <br> <br> <br> <!--webpage short description--> <center>
-    Welcome to DigiBraille! Our web app allows you to input a note (i.e. grocery list, <br>
-    phone number, to-do list), a recipe you would like to make, product you would like <br>
-    to use, or a link to an article and directly print it to physical braille from your <br>
-    phone! To start click the notes button and start writing whatever you want or the <br>
-    search box to look up a product or submit a link.
-    <br> </center>
+    <div class="text-box" style = "align-items: center; text-align: center; font-size: 16px; margin: 10px; font-family:Arial, Helvetica, sans-serif;
+    ">
+        <p>Welcome to DigiBraille! Our web app allows you to input a note, a recipe you would like to make, or a product you would like 
+            to use, and directly print it to physical braille from your 
+            phone! Click the notes button (top of the page) to print whatever you want or the 
+            search box (middle of page) to look up a product.</p>
+    </div>
+
 
     </body>
 

@@ -4,33 +4,55 @@
 <!--HTML FILE FOR TYPE NOTES FEATURE OF WEBSITE-->
 
 <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Your other head elements, styles, etc. -->
+    </head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        .parent {
+          position: relative;
+        }
+      
+        .child1 {
+            margin: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .child2 {
+            position: absolute; top: 75px; left: 150px;
+        }
+      </style>
+
     <tbody>  
         <h1 style = "font-size: 20px;"><!--heading-->
-            DIGIBRAILLE
+            DIGIBRAILLE NOTES
             <link rel="stylesheet" href="{{ url_for('static', filename= 'css/title_n.css') }}">
         </h1>
         <div> 
-        <h2 style = "position:relative; left:300px; top:10px; font-size: 35px; font-family:Arial, Helvetica, sans-serif;"> 
-            Type Below: 
-            <link rel="stylesheet" href="{{ url_for('static', filename= 'css/subheading_n.css') }}">
-            
-        </h2>
 
-            <a href="/"> <!--type and print notes feature-->
-                <button id="notes" class="both" style = "position:relative; left:1010px; top:-45px; font-size: 25px; font-family:Arial, Helvetica, sans-serif;">
-                    BACK
+            <a class = "child1" href="/"> <!--type and print notes feature-->
+                <button id="notes" class="back" style = "justify-content: center; font-size: 15px; align-items: center;font-family:Arial, Helvetica, sans-serif;">
+                    MAIN MENU
                     <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_buttons.css') }}">
                 </button>
             </a>
         </div>  
 
-     
+ 
+    <br>
     <form action="{{ url_for("typenotes")}}" method="post"> <center>
-      <textarea id="notes" name="notes" placeholder="Type Here" cols="100" rows="30"></textarea> 
+      <textarea class = "parent" id="notes" name="notes" placeholder="Type Notes Here" style= "font-size: 25px; width: 90vw; height: 55vh;"></textarea> 
+        <br>
         <br>
         <div>
-            <input  type="submit" id="notes" name="notes" value="PRINT" onclick="clearTextArea()" class="both" style = "position:relative; left:-290px; top:10px; font-size: 25px; font-family:Arial, Helvetica, sans-serif;">
-            <input type="reset" id="clearButton" name="clearButton" value="Clear" class = "both" style = "position:relative; left:290px; top:10px; font-size: 25px; font-family:Arial, Helvetica, sans-serif;"> 
+           <input class = "print" type="submit" id="notes" name="notes" value="PRINT" onclick="clearTextArea()" class="both" style = "margin-right: 40px; position:relative; font-size: 25px; font-family:Arial, Helvetica, sans-serif;"> 
+            <input type="reset" id="clearButton" name="clearButton" value="Clear" class = "print" style = "margin-left: 40px; position:relative; text-align: center;font-size: 25px; font-family:Arial, Helvetica, sans-serif;"> 
             <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_buttons.css') }}">
            <!-- <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_button.css') }}">-->
         </div>
@@ -38,6 +60,7 @@
 
 
     </tbody>
+
 
 
 
