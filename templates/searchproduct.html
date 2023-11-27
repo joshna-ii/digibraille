@@ -10,24 +10,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
-    <style>
-        .parent {
-          position: relative;
-        }
-      
-        .child1 {
-            margin: 1px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        .child2 {
-            position: absolute; top: 75px; left: 150px;
-        }
-      </style>
+    
 
 
     <body>
@@ -37,15 +20,12 @@
         </h1>
 
 
-        <div> 
-
-            <a class = "child1" href="/"> <!--type and print notes feature-->
-                <button id="notes" class="back" style = "justify-content: center; font-size: 15px; align-items: center;font-family:Arial, Helvetica, sans-serif;">
-                    MAIN MENU
-                    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_buttons.css') }}">
-                </button>
-            </a>
-        </div>
+        <form method="post" action="{{ url_for('gfg') }}">
+            <button id="notes" value="menu" name = "menu" class="back" style = "font-size: 14px; position:absolute; top: 85px; right: 130px; text-align:center; ">
+                MAIN MENU
+                <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_buttons.css') }}">
+            </button>
+        </form>
 
 
     </body>
@@ -59,7 +39,7 @@
 
         <div> 
             <textarea id="notes" name="search" placeholder="Search Here" style = "font-size: 25px; width: 60vw; height: 5vh;"></textarea>
-            <input  type="submit" id="search" name="search" class = "search" value="Search"  style = "text-align:center;position:absolute; top: 200px; right: 12px; font-size: 13px;"> 
+            <input  type="submit" id="search" name="search" class = "search" value="Search"  style = "text-align:center;position:absolute; top: 155px; right: 12px; font-size: 13px;"> 
          </div>
       
     </form>
