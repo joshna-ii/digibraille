@@ -10,6 +10,7 @@ def webscrape(URL):
     directions = ""
     r = requests.get(URL)
     current_soup = BeautifulSoup(r.content, 'html5lib')
+    title = str(current_soup.find("title")).split("<title>")[1].split("</title>")[0]
     for tags in current_soup.find_all("h3"):
         for sib in tags.next_siblings:
             if sib.name=="a":
@@ -29,14 +30,14 @@ def webscrape(URL):
             elif tags.text != "Nutrition Facts" and tags.text != "UPC" and cond != '':
                 res = re.sub('â€™', '\'', cond)
                 directions += tags.text + "\n" + res.strip("\n").strip("\t").strip("\n") + "\n\n"
-    return directions
+    return [title, directions]
 
 def find_product_query(search_input):
     words = search_input.split(" ")
     length = len(words)
     searches = []
     links = []
-    titles = []
+    first_search_links = []
     for i in range(length):
         for j in range(length):
             word1 = words[i]
@@ -49,7 +50,7 @@ def find_product_query(search_input):
                         searches.append(f"{words[i].lower()}")
     for search in searches:
         search_string = ""
-        for word in search.split(" "):
+        for word in search.split(" "): #search_input was search
             word = word.lower()
             search_string += word + "+"
         search_string = search_string[:-1]
@@ -60,19 +61,22 @@ def find_product_query(search_input):
         for link in soup_links:
             link = str(link)
             if "https://directionsforme.org/product/" in link:
-                links.append(link)
-        for tag in soup.findAll("h2"):
-                titles.append(tag.text)
+                first_search_links.append(link)
+                if search == search_input:
+                    links.append(link)
+
+
 
     link_count = {}
-    link_title = {}
     for i in range(len(links)):
         link = links[i]
+        weight = 1
+        if link in first_search_links:
+            weight = 2
         if link in link_count.keys():
-            link_count[link] = link_count[link] + 1
+            link_count[link] = link_count[link] + (1 * weight)
         else:
-            link_count[link] = 1
-            link_title[link] = titles[i]
+            link_count[link] = 1 * weight
 
 
     if links == []:
@@ -83,13 +87,11 @@ def find_product_query(search_input):
          return [OrderedDict(), 0]
       return [resd, 1]
     else:
-      sorted_list = sorted(link_count.items(), key=lambda x:x[1], reverse=True)       
+      sorted_list = sorted(link_count.items(), key=lambda x:x[1], reverse=True)   
       count = min(10,len(links))
       resd = OrderedDict()
       for i in range(count):
         link = sorted_list[i][0]
-        title = link_title[link]
-        resd[title] = webscrape(link)
+        [title, directions] = webscrape(link)
+        resd[title] = directions
     return [resd, count]
-
-#print(find_product_query("kraft mac and cheese"))
