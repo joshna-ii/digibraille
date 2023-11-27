@@ -21,9 +21,7 @@ def find_product_database(search_input, db):
                     recipe_count[recipe] = recipe_count[recipe] + 1
                 else:
                     recipe_count[recipe] = 1
-    
-    with open("recipes.txt", "w") as f:
-        f.writelines(f'{recipe_count}')
+
 
     if recipe_count == {}:
       resd = OrderedDict()
@@ -33,10 +31,11 @@ def find_product_database(search_input, db):
          return [OrderedDict(), 0]
       return [resd, 1]
     else:          
-      sorted_list = sorted(recipe_count, reverse=True)
+      sorted_list = sorted(recipe_count.items(), key=lambda x:x[1], reverse=True)
       count = min(10,len(sorted_list))
       resd = OrderedDict()
-      for elem in sorted_list:
+      for i in range(count):
+         elem = sorted_list[i][0]
          title = bytes(elem, 'utf-8').split(b'\n')[0].decode("utf-8")
          resd[title] = elem
 

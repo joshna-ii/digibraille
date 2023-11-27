@@ -14,3 +14,6 @@ def add_cache(search_input, cache, element):
     with open("temp_output.txt", "w") as f:
         f.writelines(f'{cache}\n\n\n')
     return cache
+
+def search_cache(cache, inp):
+    return cache[inp]

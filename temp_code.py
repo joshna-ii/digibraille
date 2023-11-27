@@ -1,29 +1,10 @@
-import requests
-from bs4 import BeautifulSoup
-from datetime import datetime
-
-to_print = ""
-
-URL = "https://directionsforme.org/product/0"
-r = requests.get(URL)
-og_soup = BeautifulSoup(r.content, 'html5lib')
-og_title = og_soup.find("title")
-
-index = 1
-more_products = True
-
-while more_products: #currently about 3.1 pages/sec (264847 total so one whole day uh)
-    URL = f'https://directionsforme.org/product/{index}'
-    r = requests.get(URL)
-    current_soup = BeautifulSoup(r.content, 'html5lib')
-    current_title = current_soup.find("title")
-    if og_title == current_title:
-        more_products = False
-    if(index == 500):
-        more_products = False
-    index += 1
-    print(index)
+my_dict = { 'numa': 6, 'numb': 3, 'numc': 2, 'numd': 4, 'nume': 1, 'numf': 5}
+sortedDict = sorted(my_dict)
+print(my_dict)
+print(sortedDict)
 
 
-with open("temp_output.txt", "w") as f:
-    f.writelines(f'{to_print}')
+idk = {'Eusebio': 120, 'Cruyff': 104, 'Pele': 150, 'Ronaldo': 132, 'Messi': 125}
+
+sorted_footballers_by_goals = sorted(my_dict.items(), key=lambda x:x[1], reverse=True)
+print(sorted_footballers_by_goals[0][0])

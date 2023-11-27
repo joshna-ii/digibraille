@@ -15,7 +15,7 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key'
  
 database_or_query = "query" #say either "query" or "db"
-db_name = "database263000.csv" #specify csv file with database
+db_name = "database1.csv" #specify csv file with database
 
 cache = create_cache()
 

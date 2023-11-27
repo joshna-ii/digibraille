@@ -32,23 +32,48 @@ def webscrape(URL):
     return directions
 
 def find_product_query(search_input):
-    search_string = ""
-    for word in search_input.split(" "):
-        word = word.lower()
-        search_string += word + "+"
-    search_string = search_string[:-1]
-    URL = f"https://directionsforme.org/search/results?search_string={search_string}&_token=YVK8q66vCLRdYiQhbzFi2xqxFvs10TdXLH4JD7Wf"
-    r = requests.get(URL)
-    soup = BeautifulSoup(r.content, 'html5lib')
-    soup_links = [node.get('href') for node in soup.find_all("a")]
+    words = search_input.split(" ")
+    length = len(words)
+    searches = []
     links = []
-    for link in soup_links:
-        link = str(link)
-        if "https://directionsforme.org/product/" in link:
-            links.append(link)
     titles = []
-    for tag in soup.findAll("h2"):
-            titles.append(tag.text)
+    for i in range(length):
+        for j in range(length):
+            word1 = words[i]
+            word2 = words[j]
+            if not (word1 in ["and", "the", "or", "of", "by", "directions", "for", "me"]):
+                if not (word2 in ["and", "the", "or", "of", "by", "directions", "for", "me"]):
+                    if i != j:
+                        searches.append(f"{words[i].lower()} {words[j].lower()}")
+                    else:
+                        searches.append(f"{words[i].lower()}")
+    for search in searches:
+        search_string = ""
+        for word in search.split(" "):
+            word = word.lower()
+            search_string += word + "+"
+        search_string = search_string[:-1]
+        URL = f"https://directionsforme.org/search/results?search_string={search_string}&_token=YVK8q66vCLRdYiQhbzFi2xqxFvs10TdXLH4JD7Wf"
+        r = requests.get(URL)
+        soup = BeautifulSoup(r.content, 'html5lib')
+        soup_links = [node.get('href') for node in soup.find_all("a")]
+        for link in soup_links:
+            link = str(link)
+            if "https://directionsforme.org/product/" in link:
+                links.append(link)
+        for tag in soup.findAll("h2"):
+                titles.append(tag.text)
+
+    link_count = {}
+    link_title = {}
+    for i in range(len(links)):
+        link = links[i]
+        if link in link_count.keys():
+            link_count[link] = link_count[link] + 1
+        else:
+            link_count[link] = 1
+            link_title[link] = titles[i]
+
 
     if links == []:
       resd = OrderedDict()
@@ -57,10 +82,14 @@ def find_product_query(search_input):
       if website == "error":
          return [OrderedDict(), 0]
       return [resd, 1]
-    else:          
+    else:
+      sorted_list = sorted(link_count.items(), key=lambda x:x[1], reverse=True)       
       count = min(10,len(links))
       resd = OrderedDict()
       for i in range(count):
-        title = titles[i]
-        resd[title] = webscrape(links[i])
+        link = sorted_list[i][0]
+        title = link_title[link]
+        resd[title] = webscrape(link)
     return [resd, count]
+
+#print(find_product_query("kraft mac and cheese"))
