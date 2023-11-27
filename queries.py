@@ -31,8 +31,6 @@ def webscrape(URL):
                 directions += tags.text + "\n" + res.strip("\n").strip("\t").strip("\n") + "\n\n"
     return directions
 
-#true grit error TODO
-
 def find_product_query(search_input):
     search_string = ""
     for word in search_input.split(" "):

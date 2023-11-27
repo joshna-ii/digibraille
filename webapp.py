@@ -8,6 +8,7 @@ from main_backend import run_backend
 import re
 import random 
 import csv
+from cache import add_cache, create_cache
 
 # Flask constructor
 app = Flask(__name__)  
@@ -15,6 +16,8 @@ app.secret_key = 'your_secret_key'
  
 database_or_query = "query" #say either "query" or "db"
 db_name = "database263000.csv" #specify csv file with database
+
+cache = create_cache()
 
 #create database
 db = {}
@@ -86,7 +89,7 @@ def typenotes():
       if request.method == "POST":
          # getting input with notes in HTML form
          notes_input = request.form.get("notes")
-         run_backend("notes", notes_input,"","")
+         run_backend("notes", notes_input,"","","")
    return render_template("typenotes.html")
 
 
@@ -106,7 +109,7 @@ def clear_variables():
 # function for searching product feature on webapp
 @app.route('/searchproduct', methods =["GET", "POST"])
 def searchproduct(page=0):
-   global results,n, search_input,flag
+   global results,n, search_input,flag,cache
 
 
    user_id = session.get('user_id')
@@ -120,7 +123,8 @@ def searchproduct(page=0):
          # getting input with search in HTML form
          search_input = request.form.get("search")
 
-         [results,n] = run_backend("search", search_input,db,database_or_query)
+         [results,n] = run_backend("search", search_input,db,database_or_query,cache)
+         cache = add_cache(search_input,cache,[results,n])
 
          items_per_page = 5
          start_index = page*items_per_page + 0 
@@ -157,13 +161,14 @@ def searchproduct(page=0):
 # function for searching product feature on webapp
 @app.route('/nextpage', methods =["GET", "POST"])
 def nextpage(results=results):
-   global search_input, options_to_display
+   global search_input, options_to_display, cache
    page = 1
    if request.path == '/nextpage':
          # getting input with search in HTML form
          if request.method == "POST":
             search_input = request.form.get("search")
-         [results,n] = run_backend("search", search_input,db,database_or_query)
+         [results,n] = run_backend("search", search_input,db,database_or_query,cache)
+         cache = add_cache(search_input,cache,[results,n])
 
          items_per_page = 5
          start_index = page*items_per_page + 0 
@@ -339,7 +344,7 @@ def results_func():
 @app.route('/resultsprint', methods =["GET", "POST"])
 def results_print():
    global results, options_to_display, product_info, button_value, button_name   
-   run_backend("translation", (results[button_value]),"","")
+   run_backend("translation", (results[button_value]),"","","")
 
    if (button_value in options_to_display):
       page = 2
