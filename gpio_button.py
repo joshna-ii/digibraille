@@ -11,5 +11,3 @@ def check_grade():
         return "uncontracted"
     else:
         return "contracted"
-
-print(check_grade())

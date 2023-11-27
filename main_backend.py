@@ -2,10 +2,11 @@ from websearch import print_link, find_product_database
 from queries import find_product_query
 from translation import uncontracted_translation, contracted_translation, solenoid_dirs, solenoid_combos
 from cache import search_cache
-from gpio_button import check_grade
+#from gpio_button import check_grade
 #from rpi_handler import send_solenoids
 
 my_ip_address = "172.26.17.171"
+grade = "uncontracted"
 
 #writes translations to file for demo
 def print_translations(grade, inp, uncontracted, contracted, sol_dirs, sol_combos):
@@ -20,10 +21,11 @@ def print_translations(grade, inp, uncontracted, contracted, sol_dirs, sol_combo
 #gets information from frontend then decides what to print
 #calls embossing functions
 def run_backend(input_type, inp, db_for_search, database_or_query, cache):
+    global grade
     if input_type == "notes" or input_type == "translation":
         uncontracted = uncontracted_translation(inp)
         contracted = contracted_translation(inp)
-        grade = check_grade()
+        #grade = check_grade()
         if grade == "uncontracted":
             sol_dirs = solenoid_dirs(uncontracted)
         else:
