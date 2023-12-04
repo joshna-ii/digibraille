@@ -71,7 +71,7 @@ def uncontracted_translation(s):
 def contracted_translation(inp):
     res = re.sub(r"\"", "`", inp) #conflict prevention
     #final letter groupsigns
-    res = re.sub(r"ound |ound$", "kd ", res)
+    res = re.sub(r"ound |ound$", ">d ", res)
     res = re.sub(r"ance |ance$", "ke ", res)
     res = re.sub(r"sion |sion$", "kn ", res)
     res = re.sub(r"less |less$", "ks ", res)
@@ -127,8 +127,38 @@ def contracted_translation(inp):
     res = re.sub(r" it |^it | it$|^it$", " x ", res)
     res = re.sub(r" you |^you | you$|^you$", " b ", res)
     res = re.sub(r" as |^as | as$|^as$", " z ", res)
+    #other signs
+    res = re.sub(r"st", "/", res)
     res = res.strip()
     return uncontracted_translation(res)
+
+
+def pretty_print_trans(translation):
+    line1 = ""
+    line2 = ""
+    line3 = ""
+    for ch in translation:
+        line1 += "  "
+        line2 += "  "
+        line3 += "  "
+        for dot in range(0, 6):
+            if dot == 0 or dot == 3:
+                if ch[dot] == 0:
+                    line1 += "x"
+                else:
+                    line1 += "o"
+            elif dot == 1 or dot == 4:
+                if ch[dot] == 0:
+                    line2 += "x"
+                else:
+                    line2 += "o"
+            else:
+                if ch[dot] == 0:
+                    line3 += "x"
+                else:
+                    line3 += "o"
+    lines = line1 + "\n" + line2 + "\n" + line3
+    return lines
 
 #translate arrays of 6 to arrys of 4 based on solenoid locations
 def solenoid_dirs(inp):
@@ -245,3 +275,6 @@ def solenoid_combos(solenoidDirs):
         binary_combo = str(sol3dirs[i]) + str(sol2dirs[i]) + str(sol1dirs[i]) + str(sol0dirs[i])
         sol_combos += (str(int(binary_combo,2))) + " "
     return(sol_combos)
+
+
+#print(pretty_print_trans(contracted_translation("sound")))

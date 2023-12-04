@@ -1,0 +1,26 @@
+PAGE TO PRINT:
+test
+
+
+UNCONTRACTED TRANSLATION:
+[[0, 1, 1, 1, 1, 0], [1, 0, 0, 0, 1, 0], [0, 1, 1, 1, 0, 0], [0, 1, 1, 1, 1, 0]]
+
+
+CONTRACTED TRANSLATION:
+[[0, 1, 1, 1, 1, 0], [1, 0, 0, 0, 1, 0], [0, 0, 1, 1, 0, 0]]
+
+
+BRAILLE SIMULATION:
+   o  o    o
+  oo   o    
+  o       o 
+
+
+SOLENOID INSTRUCTIONS for CONTRACTED BRAILLE:
+[[0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+
+
+ARDUINO COMBOS:
+0 1 1 0 0 1 1 1 0 1 0 0 1 0 0 0 1 0 
+
+
