@@ -11,17 +11,17 @@ from websearch import find_product_database, find_product_query
 #TODO divide into functins
 
 #TODO
-example0 = []
-curr = []
-for i in range(100):
-    if i%6 == 0:
-        curr = [i]
-    else:
-        curr.append(i)
-        if i%6 == 5:
-            example0.append(curr)
-
-print(solenoid_dirs(example0))
+def solenoid_dirs_test():
+    example0 = []
+    curr = []
+    for i in range(100):
+        if i%6 == 0:
+            curr = [i]
+        else:
+            curr.append(i)
+            if i%6 == 5:
+                example0.append(curr)
+    print(solenoid_dirs(example0))
 
 
 def uncontracted_translation_test(): #TODO test with real words too
