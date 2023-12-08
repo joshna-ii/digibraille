@@ -162,7 +162,7 @@ def pretty_print_trans(translation):
 
 #translate arrays of 6 to arrays of 2 based on solenoid locations
 def solenoid_dirs(inp):
-    char_diff = 4 #number of characters between solenoids
+    char_diff = 3 #number of characters between solenoids
     char_per_line = 24 #number of embossed characters per line
 
     section_width = 2*char_diff #how many characters two solenoids emboss in a section
@@ -186,27 +186,40 @@ def solenoid_dirs(inp):
                 row = line
                 col = col_section * section_width + character
                 sol0x = row * char_per_line + col
-                if sol0x >= total_char:
-                    break
-                for combo in range(2): #if row 1, dots 1 then 4 and so on
-                    #solenoid 1
-                    sol0_row1.append(inp[sol0x][0+3*combo])
-                    sol0_row2.append(inp[sol0x][1+3*combo])
-                    sol0_row3.append(inp[sol0x][2+3*combo])
-                    #solenoid 2
-                    sol1x = sol0x+char_diff
-                    if sol1x < total_char:
-                        sol1_row1.append(inp[sol0x+char_diff][0+3*combo])
-                        sol1_row2.append(inp[sol0x+char_diff][1+3*combo])
-                        sol1_row3.append(inp[sol0x+char_diff][2+3*combo])
-                    else:
+                if sol0x >= total_char: #last line
+                    for j in range(2):
+                        sol0_row1.append(0)
+                        sol0_row2.append(0)
+                        sol0_row3.append(0)
                         sol1_row1.append(0)
                         sol1_row2.append(0)
                         sol1_row3.append(0)
+                else:
+                    for combo in range(2): #if row 1, dots 1 then 4 and so on
+                        #solenoid 1
+                        sol0_row1.append(inp[sol0x][0+3*combo])
+                        sol0_row2.append(inp[sol0x][1+3*combo])
+                        sol0_row3.append(inp[sol0x][2+3*combo])
+                        #solenoid 2
+                        sol1x = sol0x+char_diff
+                        if sol1x < total_char:
+                            sol1_row1.append(inp[sol0x+char_diff][0+3*combo])
+                            sol1_row2.append(inp[sol0x+char_diff][1+3*combo])
+                            sol1_row3.append(inp[sol0x+char_diff][2+3*combo])
+                        else:
+                            sol1_row1.append(0)
+                            sol1_row2.append(0)
+                            sol1_row3.append(0)
+        sol0_row1.reverse()
+        sol0_row2.reverse()
+        sol0_row3.reverse()
+        sol1_row1.reverse()
+        sol1_row2.reverse()
+        sol1_row3.reverse()
         sol0dir += sol0_row1 + sol0_row2 + sol0_row3
         sol1dir += sol1_row1 + sol1_row2 + sol1_row3
 
-    instructions = [sol0dir,sol1dir]
+    instructions = [sol0dir, sol1dir]
     return instructions
 
     
