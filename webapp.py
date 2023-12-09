@@ -15,12 +15,12 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
 #for non-rpi
-database_or_query = "db" #say either "query" or "db"
-db_name = "database1.csv" #specify csv file with database
+#database_or_query = "db" #say either "query" or "db"
+#db_name = "database1.csv" #specify csv file with database
 
 #for rpi
-#database_or_query = "db" #say either "query" or "db"
-#db_name = "../database1.csv" #specify csv file with database
+database_or_query = "db" #say either "query" or "db"
+db_name = "../database1.csv" #specify csv file with database
 
 cache = create_cache()
 

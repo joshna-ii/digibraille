@@ -1,9 +1,9 @@
 from websearch import find_product_database, find_product_query
 from translation import uncontracted_translation, contracted_translation, solenoid_dirs, solenoid_combos, pretty_print_trans
 from cache import search_cache
-from cv import run_cv
-#from gpio_button import check_grade #for rpi
-#from rpi_handler import send_solenoids #for rpi
+#from cv import run_cv #TODO
+from gpio_button import check_grade #for rpi
+from rpi_handler import send_solenoids #for rpi
 
 grade = "contracted"
 
@@ -25,7 +25,7 @@ def run_backend(input_type, inp, db_for_search, database_or_query, cache):
     if input_type == "notes" or input_type == "translation":
         uncontracted = uncontracted_translation(inp)
         contracted = contracted_translation(inp)
-        #grade = check_grade() #for rpi
+        grade = check_grade() #for rpi
         if grade == "uncontracted":
             sol_dirs = solenoid_dirs(uncontracted)
             pretty_print = pretty_print_trans(uncontracted)
@@ -33,7 +33,7 @@ def run_backend(input_type, inp, db_for_search, database_or_query, cache):
             sol_dirs = solenoid_dirs(contracted)
             pretty_print = pretty_print_trans(contracted)
         sol_combos = solenoid_combos(sol_dirs)
-     #   send_solenoids(sol_combos) #for rpi
+        send_solenoids(sol_combos) #for rpi
         print_translations(grade, inp, uncontracted, contracted, sol_dirs, sol_combos, pretty_print)
         return uncontracted_translation(inp)
     elif input_type == "search":
@@ -44,5 +44,5 @@ def run_backend(input_type, inp, db_for_search, database_or_query, cache):
                 return find_product_database(inp, db_for_search)
             elif database_or_query == "query":
                 return find_product_query(inp)
-    elif input_type == "upload":
-        return run_cv(inp)
+    #elif input_type == "upload": #TODO rpi install stuff
+    #    return run_cv(inp)
