@@ -163,7 +163,7 @@ def pretty_print_trans(translation):
 #translate arrays of 6 to arrays of 2 based on solenoid locations
 def solenoid_dirs(inp):
     char_diff = 3 #number of characters between solenoids
-    char_per_line = 24 #number of embossed characters per line
+    char_per_line = 12 #number of embossed characters per line #TODO hopefully 24
 
     section_width = 2*char_diff #how many characters two solenoids emboss in a section
     sections_per_line = math.ceil(char_per_line/section_width) #number of separate sections the two solenoids emboss

@@ -20,7 +20,7 @@ app.secret_key = 'your_secret_key'
 
 #for rpi
 database_or_query = "db" #say either "query" or "db"
-db_name = "../database1.csv" #specify csv file with database
+db_name = "database263000.csv" #specify csv file with database
 
 cache = create_cache()
 
@@ -71,28 +71,6 @@ Beef, Water, Seasonings (Spices, Encapsulated Vinegar, Garlic, Paprika, Malt Ext
 def generate_unique_identifier():
     # Generate a unique identifier for the user
     return str(random.randint(1, 1000000))
-
-
-@app.route('/upload')   
-def upload():   
-    return render_template("upload.html")   
-  
-@app.route('/uploaded', methods = ['POST']) 
-def uploaded_image():
-    if request.method == 'POST':   
-        f = request.files['file'] 
-        if f.filename != "" and (f.filename[-3:] == "png" or f.filename[-3:] == "jpg" or f.filename[-4:] == "jpeg" or f.filename[-4:] == "webp"):
-            f.save(f"images/{f.filename}")
-            [resd, count] = run_backend("upload", f"images/{f.filename}", "", "", "")
-            if count == 0:
-               detected_or_not = "not detected"
-            else:
-               detected_or_not = "detected"
-               #TODO Zeynep add links and stuff based on [resd, count] like before
-            return render_template("uploaded.html", name = f.filename, detection = detected_or_not)
-        else:
-            return redirect("/upload", code=302)
-
 
 # A decorator used to tell the application
 # which URL is associated function
