@@ -32,8 +32,8 @@ def run_backend(input_type, inp, db_for_search, database_or_query, cache):
             sol_dirs = solenoid_dirs(contracted)
             pretty_print = pretty_print_trans(contracted)
         sol_combos = solenoid_combos(sol_dirs)
-        send_solenoids(sol_combos) #for rpi
         print_translations(grade, inp, uncontracted, contracted, sol_dirs, sol_combos, pretty_print)
+        send_solenoids(sol_combos) #for rpi
         return uncontracted_translation(inp)
     elif input_type == "search":
         if inp in cache:

@@ -3,19 +3,47 @@ import serial
 import time
 
 
-def send_solenoids(combo):
+def send_solenoids(combos):
     ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
     ser.reset_input_buffer()
+
+    combo_list = combos.split(" ")
+    combo_list = [j for i,j in enumerate(combo_list) if j!=""]
+
+    with open("arduino_output.txt", "w") as f:
+        f.writelines(f'{combo_list}\n')
     
-    combo_list = [combo]
-    length = len(combo_list)
-    combo_list = ["x"] + combo_list
-    count = 0
-    for combo in combo_list:
-        line = b''
-        while line == b'':
-            ser.write(bytes(f"{combo} ", 'utf-8'))
-            line = ser.readline()
-        if line[8:12].decode('utf-8') == "sent":
-            count += 1
-        time.sleep(1)
+    x_coord = 0
+    y_coord = 0
+    ready = False
+    for i in range(len(combo_list)):
+        combo =  combo_list[i]
+        instruction = f"{combo} {x_coord} {y_coord}"
+        with open("arduino_output.txt", "a") as f:
+            f.writelines(f'{instruction}\n')
+
+        while not ready:
+            sending = bytes(instruction, 'utf-8')
+            ser.write(sending)
+            received = ser.readline().decode('utf-8')
+            if received != "":
+                with open("arduino_output.txt", "a") as f:
+                    f.writelines(f'{received}\n')
+            if "start" in received:
+                ready = True
+        ready = False
+
+        while not ready:
+            received = ser.readline().decode('utf-8')
+            if received != "":
+                with open("arduino_output.txt", "a") as f:
+                    f.writelines(f'{received}\n')
+            if "done" in received:
+                ready = True
+        ready = False
+
+        if i%12 == 11:
+            x_coord = 0
+            y_coord += 1
+        else:
+            x_coord += 1

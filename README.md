@@ -3,7 +3,7 @@
 How to Use Right Now:
 - pip install -r requirements.txt
 - python3 webapp.py or sudo python3 webapp.py on raspberry pi
-    - website is ip address of host device
+    - website is ip address of host device: hostname -I in command terminal to find ip address
 
 Structure of Repo:
 - frontend: webapp.py and templates using python library Flask, directly interfaces with main_backend.py

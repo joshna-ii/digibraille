@@ -31,7 +31,8 @@ def uncontracted_translation(s):
     cap = False
     num = False
     trans = []
-    for c in s:
+    for i in range(len(s)):
+        c = s[i]
         if c.isdigit():
             cap = False
             if num:
@@ -47,7 +48,8 @@ def uncontracted_translation(s):
             if cap:
                 trans.append(abcx_dict[c.lower()])
             else:
-                trans.append(pre_cap)
+                if i < len(s) - 1 and s[i+1].isupper():
+                    trans.append(pre_cap) #more than one capital in a row
                 trans.append(pre_cap)
                 trans.append(abcx_dict[c.lower()])
                 cap = True
@@ -163,7 +165,7 @@ def pretty_print_trans(translation):
 #translate arrays of 6 to arrays of 2 based on solenoid locations
 def solenoid_dirs(inp):
     char_diff = 3 #number of characters between solenoids
-    char_per_line = 12 #number of embossed characters per line #TODO hopefully 24
+    char_per_line = 12 #number of embossed characters per line
 
     section_width = 2*char_diff #how many characters two solenoids emboss in a section
     sections_per_line = math.ceil(char_per_line/section_width) #number of separate sections the two solenoids emboss
