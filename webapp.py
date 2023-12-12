@@ -14,24 +14,21 @@ from cache import add_cache, create_cache
 app = Flask(__name__)  
 app.secret_key = 'your_secret_key'
 
-#for non-rpi
-#database_or_query = "db" #say either "query" or "db"
-#db_name = "database1.csv" #specify csv file with database
-
 #for rpi
 database_or_query = "db" #say either "query" or "db"
-db_name = "database263000.csv" #specify csv file with database
+db_name = "../database1.csv" #specify csv file with database
 
 cache = create_cache()
 
 #create database
 db = {}
+'''for rpi
 if database_or_query == "db":
    with open(db_name, 'r') as db_file:
       rdr = csv.reader(db_file)
       next(rdr)
       for row in rdr:
-         db[row[0]] = row[1:]
+         db[row[0]] = row[1:]'''
  
 
 # global results 
