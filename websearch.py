@@ -1,5 +1,5 @@
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, NavigableString
 from collections import OrderedDict
 import re
 
@@ -12,6 +12,10 @@ def webscrape(URL):
         for sib in tags.next_siblings:
             if sib.name=="a":
                 break
+            if isinstance(sib, NavigableString):
+                continue
+            #if isinstance(body_child, Tag):
+            #    print(body_child.name)
             sib_clean = sib.text.replace('\n','').replace('\t','*').replace(' ', '')
             cond = sib_clean.replace("*", "")
             if tags.text == "Nutrition Facts" and cond != '':
@@ -105,7 +109,6 @@ def find_product_database(search_input, db):
                     recipe_count[recipe] = recipe_count[recipe] + 1
                 else:
                     recipe_count[recipe] = 1
-
 
     if recipe_count == {}:
       return find_product_query(search_input)
