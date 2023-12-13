@@ -1,6 +1,7 @@
 from websearch import find_product_database, find_product_query
 from translation import uncontracted_translation, contracted_translation, solenoid_dirs, solenoid_combos, pretty_print_trans
 from cache import search_cache
+from cv import run_cv
 #from gpio_button import check_grade #for rpi
 #from rpi_handler import send_solenoids #for rpi
 
@@ -43,3 +44,5 @@ def run_backend(input_type, inp, db_for_search, database_or_query, cache):
                 return find_product_database(inp, db_for_search)
             elif database_or_query == "query":
                 return find_product_query(inp)
+    elif input_type == "upload":
+        return run_cv(inp)

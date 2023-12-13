@@ -1,0 +1,22 @@
+<html>  
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Your other head elements, styles, etc. -->
+    <title>upload the file : GFG</title>
+</head>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<body>
+    <h1 style = "font-size: 20px; font-family:Arial, Helvetica, sans-serif;"> <!--heading-->
+        DIGIBRAILLE UPLOAD IMAGE
+        <link rel="stylesheet" href="{{ url_for('static', filename= 'css/title.css') }}">
+    </h1>
+    <form action = "/uploaded" method = "post" enctype="multipart/form-data">   
+        <input type="file" name="file"  style="font-size: 18px; height:50px; width:300px"/>   
+        <input type = "submit" value="Upload" style="font-size: 18px; height:50px; width:100px">   
+    </form>   
+</html>

@@ -1,0 +1,9 @@
+TEST STRINGS
+hrnMv3j
+
+
+OUTPUTS
+  ox  ox  oo  xx  xx  oo  ox  xo  oo  xx  xo
+  oo  oo  xo  xx  xx  xx  ox  xo  xx  ox  oo
+  xx  ox  ox  xo  xo  ox  oo  oo  xx  ox  xx
+

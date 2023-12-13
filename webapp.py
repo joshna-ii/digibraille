@@ -84,6 +84,35 @@ def gfg():
 
    return render_template("website.html")
 
+@app.route('/upload')   
+def upload():   
+    return render_template("upload.html")   
+  
+@app.route('/uploaded', methods = ['POST']) 
+def uploaded_image():
+    global results, options_to_display, product_info, button_value
+    if request.method == 'POST':   
+        f = request.files['file'] 
+        if f.filename != "" and (f.filename[-3:] == "png" or f.filename[-3:] == "jpg" or f.filename[-4:] == "jpeg"):
+            f.save(f"images/{f.filename}")
+            [results,barcode_detection] = run_backend("upload", f"images/{f.filename}", "", "", "")
+            n = 1
+            items_per_page = 5
+            start_index = 0*items_per_page + 0 
+            end_index = 0*items_per_page + 5
+            options_to_display = {}
+            c = 0 
+
+            for key in results:
+               if ( c >= start_index and c < end_index):
+                  options_to_display[key] = results[key]
+               c += 1 
+
+            return render_template("uploaded.html",barcode_detection=barcode_detection,results=options_to_display)
+        else:
+            return redirect("/upload", code=302)
+
+
 # function for typing notes feature on web app
 @app.route('/typenotes', methods =["GET", "POST"])
 def typenotes():
@@ -317,6 +346,29 @@ def parse_input(product_info):
       i += 1
 
    return parsed_final, 0 
+
+
+@app.route('/uploadresults', methods =["GET", "POST"])
+def uploadresults_func():
+   global results, options_to_display, product_info, button_value, button_name      
+   # name for product selected 
+
+   button_value = request.form.get('button')
+   if (button_value != None):
+      product_info = results[button_value]
+      product_info, r = parse_input(product_info)
+   else:
+      product_info = ""
+
+   if (button_value in options_to_display):
+      page = 2
+   else:
+      page = 1
+   
+
+   button_name = request.form.get('print')
+
+   return render_template("uploadresults.html",order=order, product_name=button_value,page_num=page, product_info=product_info,buttonPressed=buttonPressed, redirect=r)
      
          
 @app.route('/results', methods =["GET", "POST"])
@@ -355,6 +407,18 @@ def results_print():
 
    return render_template("results.html",order=order, product_name=button_value,page_num=page, product_info=product_info,buttonPressed=buttonPressed)
 
+# this function means upload print has been selected so call print fucntion here 
+@app.route('/uploadresultsprint', methods =["GET", "POST"])
+def uploadresults_print():
+   global results, options_to_display, product_info, button_value, button_name   
+   run_backend("translation", (results[button_value]),"","","")
+
+   if (button_value in options_to_display):
+      page = 2
+   else:
+      page = 1
+
+   return render_template("uploadresults.html",order=order, product_name=button_value,page_num=page, product_info=product_info,buttonPressed=buttonPressed)
 
 if __name__=='__main__':
    app.run(host='0.0.0.0', port=80, debug=True)

@@ -1,0 +1,121 @@
+<!doctype html>
+<!--HTML FILE FOR PRODUCT SEARCHING FEATURE OF WEBSITE-->
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+
+    <style>
+        /* CSS for the box */
+        .box {
+            border: 1px solid #ccc;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            top: 200px; 
+            position: absolute; 
+            left: 10px; 
+            justify-content: center; 
+            align-items: center;
+            width: 85vw;
+            font-family:Arial, Helvetica, sans-serif;
+            font-size: 15px; 
+            max-height: 500vh;
+            padding-top: 0; 
+        }
+    </style>
+
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Your other head elements, styles, etc. -->
+    </head>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <body>
+        <h1 style = "font-size: 20px; font-family:Arial, Helvetica, sans-serif;"> <!--heading-->
+            DIGIBRAILLE UPLOADED IMAGE RESULTS
+            <link rel="stylesheet" href="{{ url_for('static', filename= 'css/title.css') }}">
+        </h1>
+
+        <a href="/"> <!--type and print notes feature-->
+            <button id="notes" class="back" style = "font-size: 14px; position:absolute; top: 75px;  right: 130px; text-align:center; ">
+                MAIN MENU
+                <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_buttons.css') }}">
+            </button>
+        </a>
+
+
+    </body>
+
+    <br>
+    <br>
+    <br>
+
+
+	<body>
+        <div class="box">
+            {% for key in product_info %}    
+            
+                {% if key == "Nutrition Facts" %}
+
+                    <p>
+                        <table class="striped-table">
+                        <th style = "text-align: left"> <strong>{{key}}</strong></th>
+                        {% for key2 in product_info[key] %}
+                                <tr style = " border: none; height: 2px; border-collapse: collapse;"><td> {{ key2 }}         </td><td> {{ product_info[key][key2]}}</td></tr>
+                                <link rel="stylesheet" href="{{ url_for('static', filename= 'css/table.css') }}">
+                        {% endfor %} 
+                        <table>
+                    </p>
+
+                {% else %}
+                    {% if redirect == 1 %}
+                        <p>    <strong>{{key}}</strong><br>
+                            <a href={{product_info[key]}}>{{product_info[key]}}</a>.</p>
+                    {% else %}
+                        <p>    <strong>{{key}}</strong><br>
+                            {{product_info[key]}}  </p>    
+                    {% endif %}
+                {% endif %}
+                
+            {% endfor %}
+        
+            <br>
+            <br>
+        <div>
+            <a href="/upload"> <!--type and print notes feature-->
+                <button id="back"  class="search_button" style = "position: relative;  margin-right: 50px;  right: 0px;">
+                    BACK
+                <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_buttons.css') }}">
+                </button>
+            </a>
+
+        
+        {% if redirect == 0 %}
+            <form method = "post" action = "\uploadresultsprint">
+                <input  type="submit" id="prod" name="prod" class = "search_button" value="PRINT" style="position: relative; margin-left: 220px; top:-40px;"> 
+                <link rel="stylesheet" href="{{ url_for('static', filename= 'css/page_buttons.css') }}">
+            </form>
+        {% endif %}
+        
+        </div>
+
+        </div>
+
+      
+     
+
+	</body>
+
+
+
+
+
+</html>
