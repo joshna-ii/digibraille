@@ -19,7 +19,7 @@ int y_ind = 0;
 
 // DEFINING STEPPER MOTOR VARIABLES 
 
-const int d_step = 500;  
+const int d_step = 300;  
 
 const int stepsperrev_y = 200;
 const int stepsperrev_x = 200;
@@ -74,7 +74,7 @@ int pos = 0; // variable to store motor position instruction
 
 //LDR values
 int ldr_value =0;
-int threshold = 668; 
+int threshold = 650; 
 bool paper_in = false;
 
 void setup() {
@@ -166,83 +166,97 @@ void comb3(){
 
 
 
-void combinations(String s, int i){
+void combinations(String s, int i, int y_ind){
    //solenoid combinations
-   if (s.equals("0")){ 
-      comb0();
-    
-      if (i % 2 == 0) 
-      {
-        if ( i % 6 == 0)
+     if (s.equals("0")){ 
+        comb0();
+      
+        if (i % 2 == 0) 
         {
-          reset_x(i); 
+          if ( i % 6 == 0)
+          {
+            reset_x(i); 
+          }
+          else
+          {
+            mov_betw_cell();
+          }
+  
+        } 
+        else {
+          mov_in_cell();
         }
-        else
+        }
+     if (s.equals("1")){ 
+      
+        comb1();
+      
+        if (i % 2 == 0) 
         {
-          mov_betw_cell();
+          if ( i % 6 == 0)
+          {
+            reset_x(i); 
+          }
+          else
+          {
+            mov_betw_cell();
+          }
+  
+        } 
+        else {
+          mov_in_cell();
         }
-
-      } 
-      else {
-        mov_in_cell();
-      }
-      }
-   if (s.equals("1")){ 
-    
-      comb1();
-    
-      if (i % 2 == 0) 
-      {
-        if ( i % 6 == 0)
+        }
+     if (s.equals("2")){ 
+        comb2();
+      
+        if (i % 2 == 0) 
         {
-          reset_x(i); 
+          if ( i % 6== 0)
+          {
+            reset_x(i); 
+          }
+          else
+          {
+            mov_betw_cell();
+          }
+        } 
+        else {
+          mov_in_cell();
         }
-        else
+        }
+     if (s.equals("3")){ 
+        comb3();
+        if (i % 2 == 0) 
         {
-          mov_betw_cell();
+          if ( i % 6 == 0)
+          {
+            reset_x(i); 
+          }
+          else
+          {
+            mov_betw_cell();
+          }
+        } 
+        else {
+          mov_in_cell();
         }
-
-      } 
-      else {
-        mov_in_cell();
-      }
-      }
-   if (s.equals("2")){ 
-      comb2();
-    
-      if (i % 2 == 0) 
-      {
-        if ( i % 6== 0)
-        {
-          reset_x(i); 
         }
-        else
-        {
-          mov_betw_cell();
-        }
-      } 
-      else {
-        mov_in_cell();
-      }
-      }
-   if (s.equals("3")){ 
-      comb3();
-      if (i % 2 == 0) 
-      {
-        if ( i % 6 == 0)
-        {
-          reset_x(i); 
-        }
-        else
-        {
-          mov_betw_cell();
-        }
-      } 
-      else {
-        mov_in_cell();
-      }
-      }
    
+   if (i == 12){
+        Serial.println("INDEX RESET");
+        mov_to_front();
+        if (y_ind % 3 == 0){
+          mov_y_cell();
+        }
+        else{
+          mov_y(y_ind);
+        }
+      
+
+    }
+   
+     
        
 }
 
@@ -289,7 +303,7 @@ void mov_betw_cell(){
 
 void reset_x(int ind){
   //digitalWrite(DIR_PIN_x, HIGH);  
-  Serial.println("move between cell");
+  Serial.println("reseting x");
   int dis = 3.7; //2.3 mm between cells  
   int num_steps = dis/(0.039);  //may need to be cm?
   
@@ -306,7 +320,7 @@ void reset_x(int ind){
 }
   
   
-void mov_to_front(int init_pos){
+void mov_to_front(){
   int dis = 55; //2.3 mm between cells  
   int num_steps = dis/(0.0039);  //may need to be cm?
   
@@ -330,12 +344,35 @@ void mov_to_front(int init_pos){
 
 // FILL IN 
 //function to move motor in y direction 
-void mov_y(){
+void mov_y(int ind){
   Serial.println("Moving y");
   int dis = 5.4; //5.4 mm between lines  
   int num_steps = dis/(0.0039); 
+  int sign = -1; 
+  int step = 30; 
+
+  if (ind == 1){
+    sign = 1; 
+    step = 120;  
+  }
+  if (ind == 4){
+    sign = -1; 
+  }
+  if (ind == 5){
+    sign = 1; 
+  }
+ if (ind == 7){
+    sign = -1; 
+  }
+  if (ind == 8){
+    sign = -1; 
+  }
+  else{
+  //  sign = 1
+    step = 30;
+  }
   
-  stepper_y.step(-15);
+  stepper_y.step(step*sign);
 
   // Move the motor until it reaches the target position
  // while (stepper_y.distanceToGo() != 0) {
@@ -354,7 +391,7 @@ void mov_y_cell(){
   int dis = 5.4; //5.4 mm between lines  
   int num_steps = dis/(0.0039); 
   
-  stepper_y.step(-45);
+  stepper_y.step(-50);
 
   // Move the motor until it reaches the target position
  // while (stepper_y.distanceToGo() != 0) {
@@ -365,56 +402,6 @@ void mov_y_cell(){
   
 }
   
-
-void test(int init_pos){
-   //solenoid combinations
-   int pos = 0;
-
-   while (pos != -1){
-    Serial.println("pos: ");
-    Serial.println(pos);
-        
-    ind += 1; 
-    if (ind != 13){ 
-      Serial.println("HERE");
-      Serial.print("ind: ");
-      Serial.println(ind); 
-  
-    
-      int nextPos = command.indexOf(' ', pos);
-      if (nextPos == -1){
-         String s = command.substring(pos, nextPos); 
-     //    Serial.println(s);
-         pos = nextPos; 
-         combinations(s,ind);
-         Serial.println("Command in loop: ");
-         Serial.println(s); 
-      }
-      if (nextPos != -1){
-        String s = command.substring(pos, nextPos);
-       // Serial.println(s);
-        pos = nextPos + 1; // Move the position to the character after the space
-        combinations(s,ind); // i = index of character in RPi string representation 
-      }
-      
-    }
-    else{
-      y_ind += 1; 
-      Serial.println("INDEX RESET");
-        mov_to_front(init_pos);
-        if (y_ind % 3 == 0){
-          mov_y_cell();
-        }
-        else{
-          mov_y();
-        }
-        ind = 0; 
-      
-    
-    }
-    
-   }
-}
 
 
 // the loop function runs over and over again forever
@@ -431,43 +418,91 @@ void loop() {
 //  if (Serial.available()){
 //    
 //    }
-    ldr_value = analogRead(A5); 
+     //  ldr_value = analogRead(A5); 
+       //Serial.println(ldr_value);
       
-    if(ldr_value < threshold){    
-          stepper_y.step(-5);
-          
-      }
-    else{
-        
+      // if(ldr_value < threshold){    
+             // stepper_y.step(5);
+              
+        //  }
+
       if (Serial.available()){
-        play_tone();
-        Serial.println(command);
+       // stepper_y.step(5);
         
-        stepper_y.step(120);
+        Serial.println("start");
+       
+      
+     //   play_tone();
+
+       int values[3]; 
+       int index = 0;
+        
+        
         ind = 0;
         int init_pos = 0;
         command = Serial.readString();
+        char *ptr = strtok(command.begin(), " ");
+        //Serial.println(command);
+
+        while (ptr != NULL && index < 3) {
+          values[index] = atoi(ptr);
+          Serial.println("Value from arduino: " + String(values[index]));
+          ptr = strtok(NULL, " ");
+          index++;
+        }
+
+        if (String(values[0]) == "5"){
+          ldr_value = analogRead(A5); 
+          
+          //Serial.println(ldr_value);
+      
+          while (ldr_value < threshold){    
+              ldr_value = analogRead(A5); 
+              Serial.println(ldr_value);
+              stepper_y.step(-5);
+              
+          }
+          stepper_y.step(-200);
+          
+        }
+        else if (String(values[0]) == "6"){
+          Serial.println("done printing");
+          stepper_y.step(-300);
+          
+        }
+        else{
+           combinations(String(values[0]),values[1],values[2]);
+
+          
+       }
+        
+        
+        
+               
         //command.trim(); 
-        Serial.println(command);
+      
+        Serial.println("done");
+      }
+        
         
             
-       
-        test(init_pos);
-        delay(1000);
+      
+       // test(init_pos);
+      //  delay(1000);
         
         
-        Serial.println("done");
-        play_tone();
+        
+      // play_tone();
       }
       
     
       
-    }
+    
 
      
 
 
     //combinations(); 
 
-  }
+  
   
