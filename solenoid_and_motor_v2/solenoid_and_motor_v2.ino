@@ -139,10 +139,10 @@ void comb1(){
 void comb2(){
     digitalWrite(s2, HIGH); 
     delay(d);
-    digitalWrite(s2, LOW);   
-    delay(d);
-    digitalWrite(s2, HIGH); 
-    delay(d);
+   // digitalWrite(s2, LOW);   
+   // delay(d);
+  //  digitalWrite(s2, HIGH); 
+  //  delay(d);
     digitalWrite(s2, LOW);   
     delay(d);
     Serial.println("arduino sent: 2");
@@ -156,10 +156,10 @@ void comb3(){
     digitalWrite(s2, LOW);   
     delay(d);
     digitalWrite(s1, HIGH); 
-    digitalWrite(s2, HIGH); 
+   // digitalWrite(s2, HIGH); 
     delay(d);
     digitalWrite(s1, LOW);   
-    digitalWrite(s2, LOW);   
+   // digitalWrite(s2, LOW);   
     delay(d);
     Serial.println("arduino sent: 3");
 }
@@ -351,7 +351,7 @@ void mov_y(int ind){
   int sign = -1; 
   int step = 30; 
 
-  if (ind == 1){
+ /* if (ind == 1){
     sign = 1; 
     step = 120;  
   }
@@ -370,7 +370,7 @@ void mov_y(int ind){
   else{
   //  sign = 1
     step = 30;
-  }
+  }*/
   
   stepper_y.step(step*sign);
 
@@ -466,8 +466,15 @@ void loop() {
           
         }
         else if (String(values[0]) == "6"){
-          Serial.println("done printing");
-          stepper_y.step(-300);
+          ldr_value = analogRead(A5); 
+          while (ldr_value > threshold){    
+              ldr_value = analogRead(A5); 
+             // Serial.println(ldr_value);
+              stepper_y.step(5);
+              
+          }
+          //Serial.println("done printing");
+          stepper_y.step(500);
           
         }
         else{
